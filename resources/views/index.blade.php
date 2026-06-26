@@ -20,6 +20,10 @@
     overflow-x: hidden;
   }
 
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #7dd3fc; }
   /* ===================== NAVBAR ===================== */
 .navbar-subly {
   position: fixed;
@@ -172,12 +176,46 @@
   background-color: rgba(239, 68, 68, 0.08) !important;
 }
 
+.navbar-subly .container-fluid {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.navbar-subly .navbar-brand {
+  justify-self: start;
+}
+
+.navbar-subly #navbarNav {
+  justify-self: center;
+}
+
+.navbar-subly .navbar-right-group {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
   /* ===================== CAROUSEL ===================== */
   .carousel-item img {
-    height: 480px;
-    object-fit: cover;
-    filter: brightness(0.7);
-  }
+  height: 560px;
+  object-fit: cover;
+  filter: brightness(0.55);
+}
+
+#bannerPromo {
+  position: relative;
+}
+#bannerPromo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(56,189,248,0.45) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 1;
+}
 
   .carousel-item::after {
     content: "";
@@ -191,15 +229,21 @@
   }
 
   .carousel-caption {
-    z-index: 2;
-    bottom: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 8%;
-    right: auto;
-    text-align: left;
-    max-width: 520px;
-  }
+  z-index: 2;
+  bottom: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50%;
+  right: auto;
+  transform: translate(-50%, -50%); /* ganti dari translateY saja */
+  text-align: center;
+  max-width: 620px;
+  width: 100%;
+}
+
+.hero-trust-strip {
+  justify-content: center;
+}
 
   .carousel-caption h1 {
     font-size: 48px;
@@ -994,22 +1038,106 @@
 @media (max-width: 992px) {
   .steps-grid { grid-template-columns: 1fr; }
 }
+
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: #080e1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+#page-loader.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: solid transparent;
+}
+
+.ring-outer {
+  width: 64px;
+  height: 64px;
+  border-width: 5px;
+  border-top-color: #38bdf8;
+  border-right-color: #38bdf8;
+  animation: spin-cw 1s linear infinite;
+}
+
+.ring-inner {
+  width: 38px;
+  height: 38px;
+  top: 13px;
+  left: 13px;
+  border-width: 3px;
+  border-bottom-color: #7dd3fc;
+  border-left-color: #7dd3fc;
+  opacity: 0.7;
+  animation: spin-ccw 0.8s linear infinite;
+}
+
+@keyframes spin-ccw { 100% { transform: rotate(-360deg); } }
+
+.loader-dual-ring {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-letter {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #38bdf8;
+  text-shadow: 0 0 14px rgba(56,189,248,0.5);
+}
+
+@keyframes spin-cw { 100% { transform: rotate(360deg); } }
+
+/* ===================== SCROLL ANIMATION ===================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.from-left  { transform: translateX(-30px); }
+.reveal.from-right { transform: translateX(30px); }
+.reveal.visible    { opacity: 1; transform: none; }
+
 </style>
 </head>
 <body>
+<div id="page-loader">
+  <div class="loader-dual-ring">
+    <div class="ring ring-outer"></div>
+    <div class="ring ring-inner"></div>
+    <span class="loader-letter">S</span>
+  </div>
+</div>
 
 {{-- ===================== NAVBAR ===================== --}}
 <nav class="navbar navbar-expand-lg navbar-subly" id="mainNavbar">
-  <div class="container-fluid px-4">
-    <a class="navbar-brand" href="/">SUBLY</a>
+  <div class="container-fluid px-4 d-flex align-items-center">
 
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+    <a class="navbar-brand me-0" href="/" style="min-width:120px;">SUBLY</a>
+
+    <button class="navbar-toggler border-0 ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       style="color:#94a3b8;">
       <i class="bi bi-list fs-4"></i>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mx-auto align-items-center">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav align-items-center">
         <li class="nav-item">
           <a class="nav-link active" href="/">Home</a>
         </li>
@@ -1025,81 +1153,78 @@
         </li>
         @endif
       </ul>
+    </div>
 
-      <div class="d-flex align-items-center gap-3 me-lg-4">
-    {{-- Search --}}
-    <form action="/cari" method="GET" class="d-none d-lg-block m-0">
-        <div class="subly-search-box">
-            <i class="ti ti-search search-icon"></i>
-            <input type="text" name="cari" class="search-input"
-                  placeholder="Cari aplikasi..." value="{{ old('cari') }}">
-        </div>
+    <div class="navbar-right-group d-none d-lg-flex">
+    <form action="/cari" method="GET" class="m-0">
+      <div class="subly-search-box">
+        <i class="ti ti-search search-icon"></i>
+        <input type="text" name="cari" class="search-input"
+              placeholder="Cari aplikasi..." value="{{ old('cari') }}">
+      </div>
     </form>
-    
-</div>
 
-        {{-- Account Dropdown --}}
-        <div class="dropdown">
-          <a class="btn-account-nav dropdown-toggle d-flex align-items-center gap-2"
-            href="#" role="button" data-bs-toggle="dropdown">
-            @if(session()->has('username'))
-              <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-info text-dark fw-bold"
-                style="width:26px;height:26px;font-size:11px;">
-                {{ strtoupper(substr(session('username'), 0, 1)) }}
-              </span>
-              {{ session('username') }}
-            @else
-              <i class="bi bi-person-circle"></i> Account
-            @endif
-          </a>
+      <div class="dropdown">
+        <a class="btn-account-nav dropdown-toggle d-flex align-items-center gap-2"
+          href="#" role="button" data-bs-toggle="dropdown">
+          @if(session()->has('username'))
+            <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-info text-dark fw-bold"
+              style="width:26px;height:26px;font-size:11px;">
+              {{ strtoupper(substr(session('username'), 0, 1)) }}
+            </span>
+            {{ session('username') }}
+          @else
+            <i class="bi bi-person-circle"></i> Account
+          @endif
+        </a>
 
-          <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end p-2 shadow-lg">
-            @if(session()->has('username'))
-              <li>
-                <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color:#0f172a;">
-                  <div class="bg-info text-dark fw-bold rounded-circle d-flex justify-content-center align-items-center me-3"
-                    style="width:42px;height:42px;font-size:16px;flex-shrink:0;">
-                    {{ strtoupper(substr(session('username'), 0, 1)) }}
-                  </div>
-                  <div>
-                    <strong class="d-block text-white" style="font-size:14px;">{{ session('username') }}</strong>
-                    <small class="text-info text-uppercase" style="font-size:10px;">Akun {{ session('status') }}</small>
-                  </div>
+        <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end p-2 shadow-lg">
+          @if(session()->has('username'))
+            <li>
+              <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color:#0f172a;">
+                <div class="bg-info text-dark fw-bold rounded-circle d-flex justify-content-center align-items-center me-3"
+                  style="width:42px;height:42px;font-size:16px;flex-shrink:0;">
+                  {{ strtoupper(substr(session('username'), 0, 1)) }}
                 </div>
-              </li>
-              <li><a class="dropdown-item py-2 rounded" href="/transaksi">
-                <i class="bi bi-receipt me-2 opacity-50"></i>Riwayat Transaksi
-              </a></li>
-              <li><hr class="dropdown-divider border-secondary my-1"></li>
-              <li><a class="dropdown-item text-danger py-2 rounded" href="/logout">
-                <i class="bi bi-box-arrow-right me-2"></i>Logout
-              </a></li>
-            @else
-              <li>
-                <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color:#0f172a;">
-                  <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center me-3 text-white"
-                    style="width:42px;height:42px;font-size:18px;flex-shrink:0;">
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div>
-                    <strong class="d-block text-white" style="font-size:14px;">Guest Account</strong>
-                    <small class="text-secondary" style="font-size:11px;">Masuk untuk bertransaksi</small>
-                  </div>
+                <div>
+                  <strong class="d-block text-white" style="font-size:14px;">{{ session('username') }}</strong>
+                  <small class="text-info text-uppercase" style="font-size:10px;">Akun {{ session('status') }}</small>
                 </div>
-              </li>
-              <li class="d-flex gap-2 mb-2 px-1">
-                <a href="/halaman-login" class="btn btn-outline-light w-50 py-1" style="border-radius:8px;font-size:13px;">Login</a>
-                <a href="/signin" class="btn btn-info text-dark fw-bold w-50 py-1" style="border-radius:8px;font-size:13px;">Daftar</a>
-              </li>
-              <li><hr class="dropdown-divider border-secondary my-1"></li>
-              <li><a class="dropdown-item py-2 rounded" href="/syarat-ketentuan">
-                <i class="bi bi-file-text me-2 opacity-50"></i>Syarat & Ketentuan
-              </a></li>
-            @endif
-          </ul>
-        </div>
+              </div>
+            </li>
+            <li><a class="dropdown-item py-2 rounded" href="/transaksi">
+              <i class="bi bi-receipt me-2 opacity-50"></i>Riwayat Transaksi
+            </a></li>
+            <li><hr class="dropdown-divider border-secondary my-1"></li>
+            <li><a class="dropdown-item text-danger py-2 rounded" href="/logout">
+              <i class="bi bi-box-arrow-right me-2"></i>Logout
+            </a></li>
+          @else
+            <li>
+              <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color:#0f172a;">
+                <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center me-3 text-white"
+                  style="width:42px;height:42px;font-size:18px;flex-shrink:0;">
+                  <i class="bi bi-person"></i>
+                </div>
+                <div>
+                  <strong class="d-block text-white" style="font-size:14px;">Guest Account</strong>
+                  <small class="text-secondary" style="font-size:11px;">Masuk untuk bertransaksi</small>
+                </div>
+              </div>
+            </li>
+            <li class="d-flex gap-2 mb-2 px-1">
+              <a href="/halaman-login" class="btn btn-outline-light w-50 py-1" style="border-radius:8px;font-size:13px;">Login</a>
+              <a href="/signin" class="btn btn-info text-dark fw-bold w-50 py-1" style="border-radius:8px;font-size:13px;">Daftar</a>
+            </li>
+            <li><hr class="dropdown-divider border-secondary my-1"></li>
+            <li><a class="dropdown-item py-2 rounded" href="/syarat-ketentuan">
+              <i class="bi bi-file-text me-2 opacity-50"></i>Syarat & Ketentuan
+            </a></li>
+          @endif
+        </ul>
       </div>
     </div>
+
   </div>
 </nav>
 
@@ -1112,30 +1237,51 @@
   </div>
 
   <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="https://images.hdqwalls.com/download/netflix-squid-game-season-3-os-1366x768.jpg" class="d-block w-100" alt="Netflix Promo">
-      <div class="carousel-caption d-none d-md-block">
-        <h1 class="text-white">NETFLIX PRO</h1>
-        <p>Streaming film 4K di semua perangkat.</p>
-      </div>
-    </div>
 
-    <div class="carousel-item">
-      <img src="https://awsimages.detik.net.id/community/media/visual/2023/12/21/ilustrasi-ai_169.jpeg?w=700&q=90" class="d-block w-100" alt="AI Tools Promo">
-      <div class="carousel-caption d-none d-md-block">
-        <h1 class="text-white">AI PRO TOOLS</h1>
-        <p>Kecerdasan buatan untuk masa depan.</p>
+  {{-- Slide 1 — Hero Utama --}}
+  <div class="carousel-item active">
+    <img src="https://images.hdqwalls.com/download/netflix-squid-game-season-3-os-1366x768.jpg" class="d-block w-100" alt="Hero">
+    <div class="carousel-caption d-none d-md-block">
+      <span class="hero-badge" style="margin-bottom:20px;display:inline-flex;">✦ PLATFORM LANGGANAN #1</span>
+      <h1 class="text-white" style="font-size:52px;font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:14px;">
+        Semua Premium<br><span style="color:#38bdf8;">Satu Tempat</span>
+      </h1>
+      <p style="font-size:15px;color:#94a3b8;margin: 0 auto 28px;max-width:460px;">
+        Langganan Netflix, Spotify, ChatGPT, dan 20+ layanan premium lainnya dengan harga terjangkau dan garansi penuh.
+      </p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
+        <a href="#streaming" class="btn-banner">Mulai Berlangganan</a>
+        <a href="#aitools" class="btn-banner" style="background:transparent;border:1px solid rgba(255,255,255,0.2);box-shadow:none;">Lihat Semua →</a>
       </div>
-    </div>
-
-    <div class="carousel-item">
-      <img src="https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/3970/production/_108240741_beatles-abbeyroad-square-reuters-applecorps.jpg.webp" class="d-block w-100" alt="Spotify Promo">
-      <div class="carousel-caption d-none d-md-block">
-        <h1 class="text-white">SPOTIFY PREMIUM</h1>
-        <p>Musik tanpa batas, tanpa iklan.</p>
+      <div class="hero-trust-strip" style="margin-top:28px;">
+        <div class="hero-trust-item"><i class="ti ti-shield-check"></i> Garansi penuh 1×24 jam</div>
+        <div class="hero-trust-item"><i class="ti ti-bolt"></i> Proses instan</div>
+        <div class="hero-trust-item"><i class="ti ti-headset"></i> CS responsif 24/7</div>
       </div>
     </div>
   </div>
+
+  {{-- Slide 2 --}}
+  <div class="carousel-item">
+    <img src="https://awsimages.detik.net.id/community/media/visual/2023/12/21/ilustrasi-ai_169.jpeg?w=700&q=90" class="d-block w-100" alt="AI Tools Promo">
+    <div class="carousel-caption d-none d-md-block">
+      <h1 class="text-white">AI PRO TOOLS</h1>
+      <p>Kecerdasan buatan untuk masa depan.</p>
+      <a href="#aitools" class="btn-banner">Lihat AI Tools →</a>
+    </div>
+  </div>
+
+  {{-- Slide 3 --}}
+  <div class="carousel-item">
+    <img src="https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/3970/production/_108240741_beatles-abbeyroad-square-reuters-applecorps.jpg.webp" class="d-block w-100" alt="Spotify Promo">
+    <div class="carousel-caption d-none d-md-block">
+      <h1 class="text-white">SPOTIFY PREMIUM</h1>
+      <p>Musik tanpa batas, tanpa iklan.</p>
+      <a href="#streaming" class="btn-banner">Lihat Streaming →</a>
+    </div>
+  </div>
+
+</div>
 
   <button class="carousel-control-prev" type="button" data-bs-target="#bannerPromo" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -1146,24 +1292,6 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-
-{{-- ===================== HERO INTRO ===================== --}}
-<section class="hero-intro">
-  <div class="hero-intro-text">
-    <span class="hero-badge">✦ PLATFORM LANGGANAN #1</span>
-    <h2>Semua Premium<br><span>Satu Tempat</span></h2>
-    <p>Langganan Netflix, Spotify, ChatGPT, dan 20+ layanan premium lainnya dengan harga terjangkau dan garansi penuh.</p>
-    <div class="hero-intro-actions">
-      <a href="#streaming" class="btn-hero-primary">Mulai Berlangganan</a>
-      <a href="#aitools" class="btn-hero-secondary">Lihat Semua →</a>
-    </div>
-    <div class="hero-trust-strip">
-      <div class="hero-trust-item"><i class="ti ti-shield-check"></i> Garansi penuh 1×24 jam</div>
-      <div class="hero-trust-item"><i class="ti ti-bolt"></i> Proses instan</div>
-      <div class="hero-trust-item"><i class="ti ti-headset"></i> CS responsif 24/7</div>
-  </div>
-</div>
-</section>
 
 {{-- ===================== CURVE DIVIDER ===================== --}}
 <div class="section-curve-divider">
@@ -1391,7 +1519,6 @@
   document.addEventListener("DOMContentLoaded", function () {
     const navbar = document.getElementById('mainNavbar');
     
-    // Yang lama (jangan diubah)
     window.addEventListener('scroll', function () {
       if (window.scrollY > 60) {
         navbar.classList.add('scrolled');
@@ -1400,7 +1527,6 @@
       }
     });
 
-    // ← TAMBAH DI SINI (setelah }); di atas)
     const navLinks = document.querySelectorAll('.navbar-subly .nav-link');
 
     function updateActiveNav() {
@@ -1431,13 +1557,57 @@
         if (link.getAttribute('href') === activeHref) {
           link.classList.add('active');
         }
-      });
-    }
+      }); // ← tutup forEach di sini dulu
+    }   // ← tutup updateActiveNav di sini
 
     window.addEventListener('scroll', updateActiveNav);
     updateActiveNav();
 
-  }); 
+    // ✅ BARU TARUH DI SINI — di luar semua fungsi di atas
+    document.querySelectorAll('.section-header').forEach(el => {
+      el.classList.add('reveal', 'from-left');
+    });
+
+    document.querySelectorAll('.step-card').forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = `${i * 0.12}s`;
+    });
+
+    document.querySelectorAll('.cards-grid').forEach(grid => {
+      grid.querySelectorAll('.service-card').forEach((card, i) => {
+        card.classList.add('reveal');
+        card.style.transitionDelay = `${(i % 4) * 0.1}s`;
+      });
+    });
+
+    document.querySelectorAll('.promo-text').forEach(el => {
+      el.classList.add('reveal', 'from-left');
+    });
+
+    document.querySelectorAll('.trust-stat-item').forEach((el, i) => {
+      el.classList.add('reveal', 'from-right');
+      el.style.transitionDelay = `${i * 0.12}s`;
+    });
+
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          scrollObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => scrollObserver.observe(el));
+
+}); // ← penutup DOMContentLoaded
+
+window.addEventListener('load', function () {
+  const loader = document.getElementById('page-loader');
+  if (loader) {
+    setTimeout(() => loader.classList.add('loaded'), 200);
+  }
+});
 </script>
 </body>
 </html>

@@ -104,17 +104,31 @@
                     <thead>
                         <tr>
                             <th class="text-center" width="5%">No</th>
+                            
+                            @if(session('status') == 'admin')
+                                <th width="20%">Pelanggan</th>
+                            @endif
+                            
                             <th width="15%">Layanan</th>
                             <th width="25%">Paket Terpilih</th>
                             <th width="15%">Total Bayar</th>
-                            <th width="15%">Metode</th>
-                            <th width="15%">Status</th>
+                            <th width="10%">Metode</th>
+                            <th width="10%">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($proses_transaksi as $index => $t)
                             <tr>
                                 <td class="text-center text-secondary fw-semibold">{{ $index + 1 }}</td>
+                                
+                                @if(session('status') == 'admin')
+                                    <td>
+                                        <div class="text-white fw-medium mb-1">{{ $t->nama_lengkap }}</div>
+                                        <div class="text-secondary" style="font-size: 11px;">
+                                            <span class="text-info">WA:</span> {{ $t->nomor_whatsapp }}
+                                        </div>
+                                    </td>
+                                @endif
                                 
                                 <td class="fw-bold text-white">
                                     {{ $t->nama_layanan }}
@@ -142,49 +156,48 @@
                                         @if($t->status_pesanan == 'Pending' || $t->status_pesanan == 'Diproses')
                                             <div class="mb-2">
                                                 @if($t->status_pesanan == 'Diproses')
-                                                    <span class="badge badge-soft-info px-2 py-1" style="font-size: 10px;">User Sudah Bayar</span>
+                                                    <span class="badge badge-soft-info px-2 py-1 fw-bold" style="font-size: 11px;">Perlu Verifikasi</span>
                                                 @else
-                                                    <span class="badge badge-soft-warning px-2 py-1" style="font-size: 10px;">Pending</span>
+                                                    <span class="badge badge-soft-warning px-2 py-1 fw-bold" style="font-size: 11px;">Menunggu Pembayaran</span>
                                                 @endif
                                             </div>
                                             
-                                            <div class="d-grid gap-1">
-                                                <a href="/transaksi/sukses/{{ $t->id_transaksi }}" class="btn btn-sm btn-success rounded-pill fw-bold" style="font-size: 11px;">
-                                                    ✅ Acc Pesanan
+                                            <div class="d-grid gap-2">
+                                                <a href="/transaksi/sukses/{{ $t->id_transaksi }}" class="btn btn-sm btn-success rounded fw-bold shadow-sm" style="font-size: 11px;">
+                                                    Konfirmasi Pesanan
                                                 </a>
-                                                <a href="/transaksi/batal/{{ $t->id_transaksi }}" class="btn btn-sm btn-outline-danger rounded-pill" style="font-size: 11px;">
-                                                    Tolak
+                                                <a href="/transaksi/batal/{{ $t->id_transaksi }}" class="btn btn-sm btn-outline-danger rounded fw-bold" style="font-size: 11px;">
+                                                    Tolak Pesanan
                                                 </a>
                                             </div>
 
                                         @elseif($t->status_pesanan == 'Sukses' || $t->status_pesanan == 'Berhasil')
-                                            <span class="badge badge-soft-success px-3 py-2 rounded-pill fw-bold">✅ Selesai</span>
+                                            <span class="badge badge-soft-success px-3 py-2 rounded-pill fw-bold" style="font-size: 12px;">Transaksi Selesai</span>
                                         @else
-                                            <span class="badge badge-soft-danger px-3 py-2 rounded-pill fw-bold">❌ Dibatalkan</span>
+                                            <span class="badge badge-soft-danger px-3 py-2 rounded-pill fw-bold" style="font-size: 12px;">Dibatalkan</span>
                                         @endif
 
                                     @else
                                         
                                         @if($t->status_pesanan == 'Pending')
-                                            <span class="badge badge-soft-warning px-3 py-2 rounded-pill fw-bold mb-2 d-block">⏳ Pending</span>
-                                            <a href="/konfirmasi-pembayaran/{{ $t->id_transaksi }}" class="btn btn-sm btn-info text-white fw-bold rounded-pill w-100" style="font-size: 11px;">
-                                            Kirim Bukti via WA
+                                            <span class="badge badge-soft-warning px-3 py-2 rounded-pill fw-bold mb-2 d-block" style="font-size: 12px;">Menunggu Pembayaran</span>
+                                            <a href="/konfirmasi-pembayaran/{{ $t->id_transaksi }}" class="btn btn-sm btn-info text-white fw-bold rounded-pill w-100 shadow-sm" style="font-size: 11px;">
+                                            Kirim Bukti Pembayaran
                                             </a>
                                         @elseif($t->status_pesanan == 'Diproses')
-                                            <span class="badge badge-soft-info px-3 py-2 rounded-pill fw-bold">🔄 Sedang Diproses</span>
-                                            <p class="text-secondary mt-1 mb-0" style="font-size: 10px;">Menunggu konfirmasi admin</p>
+                                            <span class="badge badge-soft-info px-3 py-2 rounded-pill fw-bold" style="font-size: 12px;">Sedang Diverifikasi</span>
+                                            <p class="text-secondary mt-1 mb-0" style="font-size: 11px;">Pengecekan oleh tim admin</p>
                                         @elseif($t->status_pesanan == 'Sukses' || $t->status_pesanan == 'Berhasil')
-                                            <span class="badge badge-soft-success px-3 py-2 rounded-pill fw-bold">✅ Aktif</span>
+                                            <span class="badge badge-soft-success px-3 py-2 rounded-pill fw-bold" style="font-size: 12px;">Langganan Aktif</span>
                                         @else
-                                            <span class="badge badge-soft-danger px-3 py-2 rounded-pill fw-bold">❌ Batal</span>
+                                            <span class="badge badge-soft-danger px-3 py-2 rounded-pill fw-bold" style="font-size: 12px;">Pesanan Dibatalkan</span>
                                         @endif
 
                                     @endif
-                                </td>
-                            </tr>
+                                </td>                            </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-5">
+                                <td colspan="{{ session('status') == 'admin' ? 7 : 6 }}" class="text-center py-5">
                                     <div class="mb-3 text-secondary" style="font-size: 40px;">🛒</div>
                                     <h5 class="fw-bold text-white mb-1">Belum ada transaksi</h5>
                                     <p class="text-secondary small mb-0">Anda belum melakukan pembelian layanan apapun.</p>
