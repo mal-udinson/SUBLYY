@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -38,7 +39,7 @@
   transform: translateX(-50%);
   width: 92%;
   max-width: 1400px;
-  background: rgba(8, 14, 26, 0.75);
+  background: rgba(8, 14, 26, 0.25);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 40px;
@@ -317,25 +318,25 @@
     padding-bottom: 32px;
   }
 
-  .service-card {
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-    aspect-ratio: 3/2.4;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
-    border: 1px solid rgba(255,255,255,0.04);
-    text-decoration: none;
-    background: #1e293b;
-  }
+ .service-card {
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: default;
+  position: relative;
+  aspect-ratio: 3/2.4;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  border: 1px solid rgba(255,255,255,0.04);
+  text-decoration: none;
+  background: #1e293b;
+}
 
-  .service-card:hover {
-    transform: translateY(-6px) scale(1.02);
-    border-color: rgba(56,189,248,0.3);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,189,248,0.15);
-  }
+.service-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(56,189,248,0.5);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 2px rgba(56,189,248,0.4);
+}
 
   .card-img-area {
     flex: 1;
@@ -376,20 +377,17 @@
   }
 
   .card-badge {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #38bdf8;
-    background: rgba(56,189,248,0.1);
-    border: 1px solid rgba(56,189,248,0.2);
-    padding: 2px 8px;
-    border-radius: 10px;
-  }
-
-  .card-badge.green  { color: #34d399; background: rgba(52,211,153,0.1); border-color: rgba(52,211,153,0.2); }
-  .card-badge.purple { color: #a78bfa; background: rgba(167,139,250,0.1); border-color: rgba(167,139,250,0.2); }
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #38bdf8;
+  background: rgba(56,189,248,0.1);
+  border: 1px solid rgba(56,189,248,0.2);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
 
   /* Admin Buttons on Card */
   .card-admin-actions {
@@ -460,9 +458,9 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(56, 189, 248, 0.18) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(56, 189, 248, 0.45) 1.2px, transparent 1.2px);
   background-size: 28px 28px;
-  opacity: 0.45;
+  opacity: 0.5;
   pointer-events: none;
   z-index: 0;
 }
@@ -547,30 +545,49 @@
     background: rgba(255,255,255,0.04);
   }
 
+  .hero-trust-strip {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: #94a3b8;
+}
+
+.hero-trust-item i { font-size: 16px; }
+.hero-trust-item i { color: #38bdf8; }
+
   /* ===================== PROMO BANNER ===================== */
   .promo-section { padding: 8px 60px 48px; }
 
   .promo-banner {
-    border-radius: 20px;
-    background: linear-gradient(130deg, #0c1e3a 0%, #0a1628 50%, #061018 100%);
-    border: 1px solid rgba(14,165,233,0.2);
-    padding: 32px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
-  }
+  border-radius: 20px;
+  background: linear-gradient(130deg, rgba(12,30,58,0.5) 0%, rgba(10,22,40,0.35) 50%, rgba(6,16,24,0.25) 100%);
+  border: 1px solid rgba(56,189,248,0.12);
+  padding: 32px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
 
   .promo-glow {
-    position: absolute;
-    right: -40px;
-    top: -40px;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(ellipse, rgba(14,165,233,0.18) 0%, transparent 65%);
-    pointer-events: none;
-  }
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(ellipse, rgba(14,165,233,0.22) 0%, transparent 65%);
+  pointer-events: none;
+}
 
   .promo-text h3 {
     font-size: 22px;
@@ -589,50 +606,203 @@
     margin: 0;
   }
 
-  .promo-cta {
-    display: inline-flex;
-    align-items: center;
+  .trust-stats {
+  display: flex;
+  gap: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.trust-stat-item {
+  text-align: center;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, rgba(56,189,248,0.06) 0%, rgba(56,189,248,0.01) 100%);
+  border: 1px solid rgba(56,189,248,0.08);
+}
+
+.trust-stat-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: #38bdf8;
+}
+
+.trust-stat-num span {
+  font-size: 14px;
+  color: #38bdf8;
+}
+
+.trust-stat-label {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+@media (max-width: 992px) {
+  .trust-stats { justify-content: center; gap: 24px; }
+}
+
+  /* ===================== FOOTER ===================== */
+  .footer-new {
+  position: relative;
+  overflow: hidden;
+  padding: 0 60px 24px;
+  border-top: none;
+  background:
+    radial-gradient(ellipse at 85% 30%, rgba(14, 165, 233, 0.09) 0%, transparent 55%),
+    #080e1a;
+}
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1.2fr;
+    gap: 32px;
+    padding-bottom: 30px;
+  }
+
+  .footer-logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #38bdf8;
+    text-shadow: 0 0 18px rgba(56,189,248,0.5);
+  }
+
+  .footer-brand p {
+    font-size: 12.5px;
+    color: #64748b;
+    line-height: 1.7;
+    margin: 12px 0 18px;
+    max-width: 280px;
+  }
+
+  .footer-social {
+    display: flex;
     gap: 8px;
-    background: #0ea5e9;
-    color: #fff;
-    font-weight: 700;
-    font-size: 13px;
-    padding: 12px 26px;
-    border-radius: 30px;
+  }
+
+  .footer-social-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 15px;
     text-decoration: none;
-    white-space: nowrap;
-    box-shadow: 0 0 18px rgba(14,165,233,0.35);
     transition: all 0.2s;
+  }
+
+  .footer-social-icon:hover {
+    background: rgba(56,189,248,0.1);
+    border-color: rgba(56,189,248,0.3);
+    color: #38bdf8;
+  }
+
+  .footer-col-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #38bdf8;
+    margin: 0 0 16px;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-col a {
+    font-size: 13px;
+    color: #94a3b8;
+    text-decoration: none;
+    margin-bottom: 11px;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover {
+    color: #38bdf8;
+  }
+
+  .footer-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-contact-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .footer-bottom {
+  border-top: 1px solid rgba(56,189,248,0.15);
+  margin: 0 -60px;
+  padding: 18px 60px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #64748b;
+}
+
+  .footer-new {
+  position: relative;
+  overflow: hidden;
+  padding: 12px 60px 24px;
+  margin-top: 0;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(14, 165, 233, 0.07) 0%, transparent 60%),
+    #080e1a;
+}
+
+  .footer-new::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(56, 189, 248, 0.45) 1.2px, transparent 1.2px);
+    background-size: 28px 28px;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .footer-new > * {
     position: relative;
     z-index: 1;
   }
 
-  .promo-cta:hover {
-    background: #0284c7;
-    color: #fff;
-    box-shadow: 0 0 28px rgba(14,165,233,0.55);
-    transform: translateY(-2px);
-  }
+ .footer-curve-divider {
+  width: 100%;
+  background: #080e1a;
+  line-height: 0;
+  overflow: hidden;
+  transform: scaleY(-1);
+  margin: 0;
+}
 
-  /* ===================== FOOTER ===================== */
-  .footer {
-    border-top: 1px solid rgba(255,255,255,0.05);
-    padding: 24px 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    color: #334155;
-    font-size: 12px;
-  }
+.footer-curve-divider svg {
+  display: block;
+  width: 100%;
+  height: 56px;
+} 2;
 
-  .footer a {
-    color: #475569;
-    text-decoration: none;
-    transition: color 0.2s;
+  @media (max-width: 992px) {
+    .footer-new { padding: 32px 24px 20px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-brand p { max-width: 100%; }
+    .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
   }
-
-  .footer a:hover { color: #38bdf8; }
 
   /* ===================== CS BUTTON ===================== */
   .btn-cs-main {
@@ -768,6 +938,62 @@
 .subly-search-box .search-input:focus ~ .search-icon {
     color: #00A3FF;
 }
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding-bottom: 32px;
+}
+
+.step-card {
+  background: linear-gradient(160deg, rgba(30,41,59,0.5) 0%, rgba(15,23,42,0.3) 100%);
+  border: 1px solid rgba(56,189,248,0.08);
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  backdrop-filter: blur(8px);
+}
+
+.step-number {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  letter-spacing: -1px;
+  color: rgba(56,189,248,0.15);
+}
+
+.step-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+.step-card h4 {
+  color: #f1f5f9;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.step-card p {
+  color: #94a3b8;
+  font-size: 12.5px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 992px) {
+  .steps-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -804,9 +1030,9 @@
     {{-- Search --}}
     <form action="/cari" method="GET" class="d-none d-lg-block m-0">
         <div class="subly-search-box">
-            <i class="bi bi-search search-icon"></i>
+            <i class="ti ti-search search-icon"></i>
             <input type="text" name="cari" class="search-input"
-                   placeholder="Cari aplikasi..." value="{{ old('cari') }}">
+                  placeholder="Cari aplikasi..." value="{{ old('cari') }}">
         </div>
     </form>
     
@@ -931,7 +1157,12 @@
       <a href="#streaming" class="btn-hero-primary">Mulai Berlangganan</a>
       <a href="#aitools" class="btn-hero-secondary">Lihat Semua →</a>
     </div>
+    <div class="hero-trust-strip">
+      <div class="hero-trust-item"><i class="ti ti-shield-check"></i> Garansi penuh 1×24 jam</div>
+      <div class="hero-trust-item"><i class="ti ti-bolt"></i> Proses instan</div>
+      <div class="hero-trust-item"><i class="ti ti-headset"></i> CS responsif 24/7</div>
   </div>
+</div>
 </section>
 
 {{-- ===================== CURVE DIVIDER ===================== --}}
@@ -954,6 +1185,33 @@
       opacity="0.75"/>
   </svg>
 </div>
+
+{{-- ===================== CARA ORDER ===================== --}}
+<section class="section" id="cara-order">
+  <div class="section-header">
+    <div class="section-title">Cara Order</div>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <span class="step-number">01</span>
+      <div class="step-icon" style="background:rgba(56,189,248,0.08);"><i class="ti ti-click" style="color:#38bdf8;"></i></div>
+      <h4>Pilih Layanan</h4>
+      <p>Cari dan klik layanan premium yang kamu inginkan dari katalog kami.</p>
+    </div>
+    <div class="step-card">
+      <span class="step-number">02</span>
+      <div class="step-icon" style="background:rgba(56,189,248,0.14);"><i class="ti ti-package" style="color:#38bdf8;"></i></div>
+      <h4>Pilih Paket & Bayar</h4>
+      <p>Tentukan durasi paket, isi data, lalu bayar via QRIS, transfer, atau e-wallet.</p>
+    </div>
+    <div class="step-card">
+      <span class="step-number">03</span>
+      <div class="step-icon" style="background:rgba(56,189,248,0.2);"><i class="ti ti-rocket" style="color:#38bdf8;"></i></div>
+      <h4>Akun Siap Dipakai</h4>
+      <p>Akun langsung diproses dan dikirim ke WhatsApp kamu. Bergaransi penuh.</p>
+    </div>
+  </div>
+</section>
 
 {{-- ===================== STREAMING & MUSIC ===================== --}}
 <section class="section" id="streaming">
@@ -997,6 +1255,7 @@
   </div>
 </section>
 
+
 {{-- ===================== AI TOOLS ===================== --}}
 <section class="section" id="aitools" style="padding-top:0;">
   <div class="section-header">
@@ -1035,51 +1294,97 @@
   </div>
 </section>
 
-{{-- ===================== PROMO BANNER ===================== --}}
+{{-- ===================== SOCIAL PROOF ===================== --}}
 <div class="promo-section">
   <div class="promo-banner">
     <div class="promo-glow"></div>
     <div class="promo-text">
-      <h3>Harga terjangkau, <span>garansi penuh</span></h3>
-      <p>Semua akun premium kami bergaransi penuh sesuai durasi paket. Bermasalah? Kami ganti dalam 1×24 jam.</p>
+      <h3>Dipercaya <span>ribuan pelanggan</span></h3>
+      <p>Garansi penuh, proses cepat, dan layanan yang konsisten sejak hari pertama.</p>
     </div>
-    <a href="https://wa.me/6281212659364" target="_blank" class="promo-cta">
-      <i class="ti ti-headset"></i> Tanya Dulu
-    </a>
+    <div class="trust-stats">
+      <div class="trust-stat-item">
+        <div class="trust-stat-num">2.500+</div>
+        <div class="trust-stat-label">Pesanan Selesai</div>
+      </div>
+      <div class="trust-stat-item">
+        <div class="trust-stat-num">4.9<span>/5</span></div>
+        <div class="trust-stat-label">Rating Pelanggan</div>
+      </div>
+      <div class="trust-stat-item">
+        <div class="trust-stat-num">1×24</div>
+        <div class="trust-stat-label">Jam Garansi</div>
+      </div>
+    </div>
   </div>
 </div>
 
-{{-- ===================== FOOTER ===================== --}}
-<footer class="footer">
-  <span>© 2026 SUBLY. All rights reserved.</span>
-  <a href="/syarat-ketentuan">Syarat & Ketentuan</a>
-</footer>
-
-{{-- CS BUTTON — posisi kanan bawah --}}
-<div class="btn-group dropup position-fixed" style="bottom:28px;right:28px;z-index:1050;">
-  <button type="button" class="btn btn-cs-main dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-    <i class="bi bi-headset me-2"></i> Hubungi CS
-  </button>
-  <ul class="dropdown-menu dropdown-menu-cs dropdown-menu-end shadow-lg p-2 mb-2">
-    <li class="px-2 py-1">
-      <span class="text-secondary fw-bold" style="font-size:11px;text-transform:uppercase;letter-spacing:1px;">Hubungi Customer Service</span>
-    </li>
-    <li><hr class="dropdown-divider border-secondary my-1"></li>
-    <li><a class="dropdown-item py-2 rounded" href="https://wa.me/6281212659364" target="_blank">
-      <i class="bi bi-whatsapp text-success me-2"></i> Chat WhatsApp
-    </a></li>
-    <li><a class="dropdown-item py-2 rounded" href="https://instagram.com/" target="_blank">
-      <i class="bi bi-instagram text-danger me-2"></i> Chat Instagram
-    </a></li>
-    <li><hr class="dropdown-divider border-secondary my-1"></li>
-    <li class="px-2 py-1">
-      <span class="text-secondary" style="font-size:11px;">Komunitas & Info</span>
-    </li>
-    <li><a class="dropdown-item py-2 rounded" href="https://youtube.com/" target="_blank">
-      <i class="bi bi-youtube text-danger me-2"></i> Youtube Channel
-    </a></li>
-  </ul>
+{{-- ===================== FOOTER CURVE DIVIDER ===================== --}}
+<div class="footer-curve-divider">
+  <svg viewBox="0 0 1400 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <filter id="blueGlowFooter" x="-20%" y="-100%" width="140%" height="300%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <path d="M-20,52 Q700,4 1420,52"
+      stroke="#38bdf8"
+      stroke-width="1.8"
+      fill="none"
+      filter="url(#blueGlowFooter)"
+      opacity="0.75"/>
+  </svg>
 </div>
+
+{{-- ===================== FOOTER ===================== --}}
+<footer class="footer-new">
+  <div class="footer-grid">
+
+    <div class="footer-brand">
+      <span class="footer-logo">SUBLY</span>
+      <p>Platform langganan premium terpercaya untuk Netflix, Spotify, AI Tools, dan 20+ layanan digital lainnya.</p>
+      <div class="footer-social">
+        <a href="https://instagram.com/" target="_blank" class="footer-social-icon"><i class="ti ti-brand-instagram"></i></a>
+        <a href="#" target="_blank" class="footer-social-icon"><i class="ti ti-brand-tiktok"></i></a>
+        <a href="https://youtube.com/" target="_blank" class="footer-social-icon"><i class="ti ti-brand-youtube"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-col-title">Navigasi</p>
+      <a href="/">Home</a>
+      <a href="#streaming">Streaming & Music</a>
+      <a href="#aitools">AI Tools</a>
+      <a href="/syarat-ketentuan">Syarat & Ketentuan</a>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-col-title">Hubungi Kami</p>
+      <a href="https://wa.me/6281212659364" target="_blank" class="footer-contact-item">
+        <span class="footer-contact-icon" style="background:rgba(52,211,153,0.1);"><i class="ti ti-brand-whatsapp" style="color:#34d399;"></i></span>
+        0812-1265-9364
+      </a>
+      <a href="https://instagram.com/" target="_blank" class="footer-contact-item">
+        <span class="footer-contact-icon" style="background:rgba(244,114,182,0.1);"><i class="ti ti-brand-instagram" style="color:#f472b6;"></i></span>
+        @subly.id
+      </a>
+      <a href="mailto:cs@subly.id" class="footer-contact-item">
+        <span class="footer-contact-icon" style="background:rgba(56,189,248,0.1);"><i class="ti ti-mail" style="color:#38bdf8;"></i></span>
+        cs@subly.id
+      </a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 SUBLY. All rights reserved.</span>
+    <span>Built for a simpler subscription life.</span>
+  </div>
+</footer>
 
 <script src="{{ asset('/css/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js') }}"></script>
 <script>
