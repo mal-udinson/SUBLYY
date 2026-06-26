@@ -221,12 +221,14 @@
 
         <div class="row justify-content-center">
             @foreach($paket as $p)
-            <div class="col-md-3 mb-4">
-                <div class="card card-paket h-100 text-center py-4" 
+            <div class="col-md-3 mb-4 d-flex flex-column"> 
+                
+                <div class="card card-paket flex-grow-1 text-center py-4" 
                      data-bs-toggle="modal" 
                      data-bs-target="#modalCheckout" 
                      data-deskripsi="{{ $p->deskripsi }}"
                      onclick="setPaket('{{ $p->id_paket }}', '{{ $p->nama_paket }}', '{{ $p->harga }}', this)">
+                     
                     <div class="card-body d-flex flex-column justify-content-center">
                         <h5 class="text-secondary fw-bold">{{ $p->nama_paket }}</h5>
                         <h2 class="text-info fw-bold mt-3 mb-0">Rp {{ number_format($p->harga, 0, ',', '.') }}</h2>
@@ -240,7 +242,7 @@
                 </div>
 
                 @if(Session::get('status') == 'admin')
-                    <div class="d-flex gap-2 mt-2 justify-content-center">
+                    <div class="d-flex gap-2 mt-3 justify-content-center">
                         <a href="/paket/edit/{{ $p->id_paket }}" class="btn btn-sm btn-edit-paket w-50 fw-semibold rounded-pill">Edit</a>
                         <a href="/paket/hapus/{{ $p->id_paket }}" class="btn btn-sm btn-hapus-paket w-50 fw-semibold rounded-pill" onclick="return confirm('Yakin ingin menghapus paket {{ $p->nama_paket }}?')">Hapus</a>
                     </div>
@@ -470,7 +472,5 @@
             });
         }
     </script>
-</body>
-
 </body>
 </html>

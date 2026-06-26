@@ -444,6 +444,156 @@
     z-index: 2;
   }
 
+  /* ===================== FLIP CARD ADMIN ===================== */
+.flip-wrapper {
+  perspective: 1000px;
+  position: relative;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-wrapper:hover .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-front,
+.flip-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.flip-front {
+  z-index: 2;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(145deg, #0d1f3c 0%, #0a1628 60%, #06101a 100%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px;
+  box-shadow: inset 0 0 40px rgba(56, 189, 248, 0.05);
+}
+
+.flip-back::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(56, 189, 248, 0.35) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.flip-back-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.6);
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-flip-edit,
+.btn-flip-hapus {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 0;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-flip-edit {
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.3) !important;
+  color: #facc15;
+}
+
+.btn-flip-edit:hover {
+  background: #eab308;
+  color: #0f172a;
+  border-color: #eab308 !important;
+  box-shadow: 0 6px 20px rgba(234, 179, 8, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-flip-hapus {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #f87171;
+}
+
+.btn-flip-hapus:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444 !important;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-flip-tambah {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: all 0.2s ease;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  color: #38bdf8;
+}
+
+.btn-flip-tambah:hover {
+  background: #0ea5e9;
+  color: #fff;
+  border-color: #0ea5e9 !important;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Pastikan aspect ratio tetap terjaga saat jadi flip wrapper */
+.flip-wrapper.service-card-shell {
+  aspect-ratio: 3/2.4;
+  display: block;
+}
+
   .btn-card-edit,
   .btn-card-hapus {
     flex: 1;
@@ -1348,12 +1498,52 @@
     <a href="#streaming" class="see-all-link">Lihat semua →</a>
   </div>
   <div class="cards-grid">
-    @foreach($layanan as $l)
-      @if($l->kategori == 'Streaming & Movies' || $l->kategori == 'Music & Audio')
-      <a href="/detailLayanan/{{ $l->id_layanan }}" class="service-card">
+@foreach($layanan as $l)
+  @if($l->kategori == 'Streaming & Movies' || $l->kategori == 'Music & Audio')
 
+    @if(session()->get('status') == 'admin')
+      {{-- ADMIN: Flip Card --}}
+      <div class="flip-wrapper service-card-shell">
+        <div class="flip-inner" style="height:100%;">
+          <div class="flip-front">
+            <a href="/detailLayanan/{{ $l->id_layanan }}" class="service-card" style="height:100%;display:flex;flex-direction:column;">
+              <div class="card-img-area">
+                <img src="{{ asset('storage/' . $l->gambar_logo) }}" alt="{{ $l->nama_layanan }}" class="card-bg-img">
+              </div>
+              <div class="card-info">
+                <div class="card-name">{{ $l->nama_layanan }}</div>
+                @if($l->kategori == 'Music & Audio')
+                  <span class="card-badge green">{{ $l->kategori }}</span>
+                @else
+                  <span class="card-badge">{{ $l->kategori }}</span>
+                @endif
+              </div>
+            </a>
+          </div>
+          <div class="flip-back">
+            <div class="flip-back-title">{{ $l->nama_layanan }}</div>
+            
+            <a href="/paket/tambah/{{ $l->id_layanan }}" class="btn-flip-tambah">
+              <i class="ti ti-plus"></i> Tambah Paket
+            </a>
+            
+            <a href="/show/{{ $l->id_layanan }}" class="btn-flip-edit">
+              <i class="ti ti-edit"></i> Edit Layanan
+            </a>
+            
+            <button type="button" class="btn-flip-hapus"
+              onclick="if(confirm('Hapus {{ $l->nama_layanan }}?')) window.location='/hapus/{{ $l->id_layanan }}'">
+              <i class="ti ti-trash"></i> Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+
+    @else
+      {{-- USER / GUEST: Card Normal --}}
+      <a href="/detailLayanan/{{ $l->id_layanan }}" class="service-card">
         <div class="card-img-area">
-            <img src="{{ asset('storage/' . $l->gambar_logo) }}" alt="{{ $l->nama_layanan }}" class="card-bg-img">
+          <img src="{{ asset('storage/' . $l->gambar_logo) }}" alt="{{ $l->nama_layanan }}" class="card-bg-img">
         </div>
         <div class="card-info">
           <div class="card-name">{{ $l->nama_layanan }}</div>
@@ -1363,23 +1553,11 @@
             <span class="card-badge">{{ $l->kategori }}</span>
           @endif
         </div>
-
-        @if(session()->get('status') == 'admin')
-        <div class="card-admin-actions">
-          <button type="button" class="btn-card-edit"
-            onclick="event.preventDefault(); event.stopPropagation(); window.location='/show/{{ $l->id_layanan }}'">
-            <i class="ti ti-edit"></i> Edit
-          </button>
-          <button type="button" class="btn-card-hapus"
-            onclick="event.preventDefault(); event.stopPropagation(); if(confirm('Hapus {{ $l->nama_layanan }}?')) window.location='/hapus/{{ $l->id_layanan }}'">
-            <i class="ti ti-trash"></i> Hapus
-          </button>
-        </div>
-        @endif
-
       </a>
-      @endif
-    @endforeach
+    @endif
+
+  @endif
+@endforeach
   </div>
 </section>
 
@@ -1392,33 +1570,65 @@
   </div>
   <div class="cards-grid">
     @foreach($layanan as $l)
-      @if($l->kategori == 'AI & Productivity')
-      <a href="/detailLayanan/{{ $l->id_layanan }}" class="service-card">
+  @if($l->kategori == 'AI & Productivity')
 
+    @if(session()->get('status') == 'admin')
+      {{-- ADMIN: Flip Card --}}
+      <div class="flip-wrapper service-card-shell">
+        <div class="flip-inner" style="height:100%;">
+          <div class="flip-front">
+            <a href="/detailLayanan/{{ $l->id_layanan }}" class="service-card" style="height:100%;display:flex;flex-direction:column;">
+              <div class="card-img-area">
+                <img src="{{ asset('storage/' . $l->gambar_logo) }}" alt="{{ $l->nama_layanan }}" class="card-bg-img">
+              </div>
+              <div class="card-info">
+                <div class="card-name">{{ $l->nama_layanan }}</div>
+                @if($l->kategori == 'Music & Audio')
+                  <span class="card-badge green">{{ $l->kategori }}</span>
+                @else
+                  <span class="card-badge">{{ $l->kategori }}</span>
+                @endif
+              </div>
+            </a>
+          </div>
+          <div class="flip-back">
+            <div class="flip-back-title">{{ $l->nama_layanan }}</div>
+            
+            <a href="/paket/tambah/{{ $l->id_layanan }}" class="btn-flip-tambah">
+              <i class="ti ti-plus"></i> Tambah Paket
+            </a>
+            
+            <a href="/show/{{ $l->id_layanan }}" class="btn-flip-edit">
+              <i class="ti ti-edit"></i> Edit Layanan
+            </a>
+            
+            <button type="button" class="btn-flip-hapus"
+              onclick="if(confirm('Hapus {{ $l->nama_layanan }}?')) window.location='/hapus/{{ $l->id_layanan }}'">
+              <i class="ti ti-trash"></i> Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+
+    @else
+      {{-- USER / GUEST: Card Normal --}}
+      <a href="/detailLayanan/{{ $l->id_layanan }}" class="service-card">
         <div class="card-img-area">
-            <img src="{{ asset('storage/' . $l->gambar_logo) }}" alt="{{ $l->nama_layanan }}" class="card-bg-img">
+          <img src="{{ asset('storage/' . $l->gambar_logo) }}" alt="{{ $l->nama_layanan }}" class="card-bg-img">
         </div>
         <div class="card-info">
           <div class="card-name">{{ $l->nama_layanan }}</div>
-          <span class="card-badge purple">{{ $l->kategori }}</span>
+          @if($l->kategori == 'Music & Audio')
+            <span class="card-badge green">{{ $l->kategori }}</span>
+          @else
+            <span class="card-badge">{{ $l->kategori }}</span>
+          @endif
         </div>
-
-        @if(session()->get('status') == 'admin')
-        <div class="card-admin-actions">
-          <button type="button" class="btn-card-edit"
-            onclick="event.preventDefault(); event.stopPropagation(); window.location='/show/{{ $l->id_layanan }}'">
-            <i class="ti ti-edit"></i> Edit
-          </button>
-          <button type="button" class="btn-card-hapus"
-            onclick="event.preventDefault(); event.stopPropagation(); if(confirm('Hapus {{ $l->nama_layanan }}?')) window.location='/hapus/{{ $l->id_layanan }}'">
-            <i class="ti ti-trash"></i> Hapus
-          </button>
-        </div>
-        @endif
-
       </a>
-      @endif
-    @endforeach
+    @endif
+
+  @endif
+@endforeach
   </div>
 </section>
 

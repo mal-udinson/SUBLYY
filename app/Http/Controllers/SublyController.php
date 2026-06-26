@@ -293,8 +293,14 @@ class SublyController extends Controller
             return redirect('/halaman-login')->with('alert', 'Anda harus login sebagai admin!');
         }
 
+        // 1. Ambil data paket yang mau diedit
         $paket = DB::table('tabel_paket')->where('id_paket', $id)->first();
-        return view('edit_paket', compact('paket'));
+        
+        // 2. Ambil data layanan induknya agar nama layanannya bisa tampil di form edit
+        $layanan = DB::table('tabel_layanan')->where('id_layanan', $paket->id_layanan)->first();
+
+        // 3. Kirim kedua data (paket dan layanan) ke halaman blade
+        return view('edit_paket', compact('paket', 'layanan'));
     }
 
     // 2. Memproses simpan perubahan data paket

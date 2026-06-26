@@ -3,55 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <title>SUBLY Admin - Edit Paket</title>
+    <title>SUBLY | Edit Paket Layanan</title>
+    <link rel="stylesheet" href="{{ asset('/css/bootstrap-5.1.3-dist/css/bootstrap.css') }}">
     <style>
-        body { background-color: #0f172a; color: #ffffff; }
-        .card-custom { background-color: #1e293b; border: none; border-radius: 12px; }
-        .form-control { background-color: #334155; border: 1px solid #475569; color: #fff; }
-        .form-control:focus { background-color: #334155; color: #fff; border-color: #38bdf8; box-shadow: none; }
+        body {
+            background-color: #0f172a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card-form {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 550px;
+        }
+
+        .form-control {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            color: #f8fafc;
+        }
+        
+        .form-control:focus {
+            background-color: #0f172a;
+            color: #ffffff;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.25);
+        }
+
+        .btn-simpan {
+            background-color: #0ea5e9;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-simpan:hover {
+            background-color: #0284c7;
+            color: white;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
     </style>
 </head>
 <body>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card card-custom shadow">
-                    <div class="card-header border-bottom border-secondary p-4">
-                        <h4 class="m-0 text-white fw-bold">Edit Paket Layanan</h4>
-                    </div>
-                    <div class="card-body p-4">
-                        <form action="/paket/update" method="post">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="id_paket" value="{{ $paket->id_paket }}">
-                            <input type="hidden" name="id_layanan" value="{{ $paket->id_layanan }}">
 
-                            <div class="mb-4">
-                                <label class="form-label fw-bold text-white">Nama Paket</label>
-                                <input type="text" name="nama_paket" class="form-control" value="{{ $paket->nama_paket }}" required>
-                            </div>
+    <div class="card card-form shadow-lg p-4">
+        <h3 class="fw-bold text-white mb-1">Edit Paket Pilihan</h3>
+            <form action="/paket/update" method="POST">
+                @csrf
+                <input type="hidden" name="id_paket" value="{{ $paket->id_paket }}">
+                <input type="hidden" name="id_layanan" value="{{ $layanan->id_layanan }}">
 
-                            <div class="mb-4">
-                                <label class="form-label fw-bold text-white">Harga Paket (Rp)</label>
-                                <input type="number" name="harga" class="form-control" value="{{ $paket->harga }}" required>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="form-label fw-bold text-white">Deskripsi Paket</label>
-                                <textarea name="deskripsi" class="form-control" rows="4" style="background-color: #334155; color: #fff; border: 1px solid #475569; resize: none;" placeholder="Contoh:&#10;- Akun Privat&#10;- Kualitas Ultra HD 4K&#10;- Garansi 30 Hari">{{ $paket->deskripsi ?? '' }}</textarea>
-                            </div>
-
-                            <hr class="border-secondary my-4">
-
-                            <div class="d-flex justify-content-end gap-2">
-                                <a href="/detailLayanan/{{ $paket->id_layanan }}" class="btn btn-outline-secondary px-4 text-white">Batal</a>
-                                <button type="submit" class="btn btn-info px-4 text-white fw-bold" style="background-color: #00aeef; border:none;">Simpan Perubahan Paket</button>
-                            </div>
-                        </form>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small fw-bold">Nama Paket</label>
+                    <input type="text" name="nama_paket" class="form-control py-2" value="{{ $paket->nama_paket }}" required>
                 </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-white">Harga Paket (Rp)</label>
+                    <input type="text" name="harga" class="form-control" value="{{ $paket->harga }}" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-white">Deskripsi Paket</label>
+                    <textarea name="deskripsi" class="form-control" rows="4" style="background-color: #334155; color: #fff; border: 1px solid #475569; resize: none;">{{ $paket->deskripsi }}</textarea>
+                </div>
+
+            <div class="d-flex gap-2 justify-content-end border-top border-secondary pt-3">
+                <a href="/detailLayanan/{{ $layanan->id_layanan }}" class="btn btn-outline-secondary px-4 rounded-pill fw-bold">Batal</a>
+                <button type="submit" class="btn btn-simpan px-4 rounded-pill fw-bold">Simpan Paket</button>
             </div>
-        </div>
+        </form>
     </div>
+
 </body>
 </html>
