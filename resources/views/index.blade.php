@@ -9,6 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"></script>
+
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1264,6 +1267,250 @@
 .reveal.from-right { transform: translateX(30px); }
 .reveal.visible    { opacity: 1; transform: none; }
 
+/* ===================== VIDEO SECTION ===================== */
+.video-section {
+  padding: 0 100px 56px;
+}
+
+.video-section-inner {
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(56,189,248,0.2);
+  background: #060d1a;
+  box-shadow:
+    0 0 0 1px rgba(56,189,248,0.06),
+    0 20px 60px rgba(0,0,0,0.6),
+    0 0 80px rgba(56,189,248,0.05);
+  position: relative;
+}
+
+.video-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background: rgba(8,14,26,0.9);
+  border-bottom: 1px solid rgba(56,189,248,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.video-section-header::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #38bdf8, #0ea5e9);
+  border-radius: 0 2px 2px 0;
+}
+
+.video-section-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(56,189,248,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.video-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.video-section-title::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 8px rgba(56,189,248,0.8);
+  animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
+}
+
+.video-section-subtitle {
+  font-size: 11px;
+  color: #475569;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  text-transform: none;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 8px rgba(56,189,248,0.8); }
+  50% { opacity: 0.5; transform: scale(0.75); box-shadow: 0 0 4px rgba(56,189,248,0.4); }
+}
+
+.video-section-body {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  max-height: 460px;
+  cursor: pointer;
+  background: #040a14;
+  overflow: hidden;
+}
+
+/* Dot pattern background saat video belum play */
+.video-section-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(56,189,248,0.15) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Glow corner kiri bawah */
+.video-section-body::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(14,165,233,0.12) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.video-section-body video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+.video-section-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4,10,20,0.7);
+  backdrop-filter: blur(4px);
+  transition: opacity 0.35s ease;
+  gap: 16px;
+  z-index: 3;
+}
+
+.video-section-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Cincin dekoratif di belakang tombol play */
+.play-ring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-ring::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid rgba(56,189,248,0.2);
+  animation: ring-pulse 2.5s ease-out infinite;
+}
+
+.play-ring::after {
+  content: '';
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 1px solid rgba(56,189,248,0.1);
+  animation: ring-pulse 2.5s ease-out infinite 0.4s;
+}
+
+@keyframes ring-pulse {
+  0% { transform: scale(0.85); opacity: 0.8; }
+  100% { transform: scale(1.2); opacity: 0; }
+}
+
+.play-btn-center {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #0369a1);
+  border: 2px solid rgba(56,189,248,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: #fff;
+  box-shadow:
+    0 0 0 6px rgba(14,165,233,0.12),
+    0 0 40px rgba(14,165,233,0.5);
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  z-index: 1;
+}
+
+.play-btn-center:hover {
+  transform: scale(1.12);
+  box-shadow:
+    0 0 0 10px rgba(14,165,233,0.15),
+    0 0 60px rgba(14,165,233,0.7);
+}
+
+.video-play-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(148,163,184,0.8);
+  letter-spacing: 0.5px;
+}
+
+/* Bottom bar info */
+.video-section-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 28px;
+  background: rgba(8,14,26,0.9);
+  border-top: 1px solid rgba(56,189,248,0.08);
+}
+
+.video-section-footer-info {
+  font-size: 11px;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.video-section-footer-info span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #475569;
+}
+
+.video-section-footer-info i {
+  color: #38bdf8;
+  font-size: 13px;
+}
+
+@media (max-width: 992px) {
+  .video-section { padding: 0 24px 32px; }
+  .video-section-body { max-height: none; aspect-ratio: 16/9; }
+}
+
 </style>
 </head>
 <body>
@@ -1657,6 +1904,43 @@
   </div>
 </div>
 
+{{-- ===================== VIDEO SECTION ===================== --}}
+<div class="video-section">
+  <div class="video-section-inner">
+
+    <div class="video-section-header">
+      <div>
+        <div class="video-section-title">Preview Layanan SUBLY</div>
+        <div class="video-section-subtitle">Tonton bagaimana SUBLY bekerja untuk kamu</div>
+      </div>
+    </div>
+
+    <div class="video-section-body" id="videoBody">
+      <video id="mainVid" preload="metadata">
+        <source src="{{ asset('videos/Video_Subly.mp4') }}" type="video/mp4">
+      </video>
+      <div class="video-section-overlay" id="videoOverlay">
+        <div class="play-ring">
+          <div class="play-btn-center">
+            <i class="ti ti-player-play"></i>
+          </div>
+        </div>
+        <div class="video-play-label">Klik untuk memutar video</div>
+      </div>
+    </div>
+
+    <div class="video-section-footer">
+      <div class="video-section-footer-info">
+        <span><i class="ti ti-shield-check"></i> Aman & Terpercaya</span>
+        <span><i class="ti ti-bolt"></i> Proses Instan</span>
+        <span><i class="ti ti-headset"></i> CS 24/7</span>
+      </div>
+      <div style="font-size:11px;color:#1e3a5f;font-weight:600;letter-spacing:0.5px;">SUBLY © 2026</div>
+    </div>
+
+  </div>
+</div>
+
 {{-- ===================== FOOTER CURVE DIVIDER ===================== --}}
 <div class="footer-curve-divider">
   <svg viewBox="0 0 1400 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -1818,6 +2102,23 @@ window.addEventListener('load', function () {
     setTimeout(() => loader.classList.add('loaded'), 200);
   }
 });
+
+// ========== VIDEO SECTION PLAYER ==========
+const mainVid      = document.getElementById('mainVid');
+const videoOverlay = document.getElementById('videoOverlay');
+const videoBody    = document.getElementById('videoBody');
+
+if (videoBody) {
+  videoBody.addEventListener('click', function () {
+    if (mainVid.paused) {
+      mainVid.play();
+      videoOverlay.classList.add('hidden');
+    } else {
+      mainVid.pause();
+      videoOverlay.classList.remove('hidden');
+    }
+  });
+}
 </script>
 </body>
 </html>
