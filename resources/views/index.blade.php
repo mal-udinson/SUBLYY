@@ -1192,23 +1192,6 @@
   .steps-grid { grid-template-columns: 1fr; }
 }
 
-#page-loader {
-  position: fixed;
-  inset: 0;
-  background: #080e1a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-}
-
-#page-loader.loaded {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
 .ring {
   position: absolute;
   border-radius: 50%;
@@ -1514,13 +1497,6 @@
 </style>
 </head>
 <body>
-<div id="page-loader">
-  <div class="loader-dual-ring">
-    <div class="ring ring-outer"></div>
-    <div class="ring ring-inner"></div>
-    <span class="loader-letter">S</span>
-  </div>
-</div>
 
 {{-- ===================== NAVBAR ===================== --}}
 <nav class="navbar navbar-expand-lg navbar-subly" id="mainNavbar">
@@ -2095,13 +2071,6 @@
     document.querySelectorAll('.reveal').forEach(el => scrollObserver.observe(el));
 
 }); // ← penutup DOMContentLoaded
-
-window.addEventListener('load', function () {
-  const loader = document.getElementById('page-loader');
-  if (loader) {
-    setTimeout(() => loader.classList.add('loaded'), 200);
-  }
-});
 
 // ========== VIDEO SECTION PLAYER ==========
 const mainVid      = document.getElementById('mainVid');
