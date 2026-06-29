@@ -10,9 +10,8 @@ Route::get('/tabel', [SublyController::class, 'index']);
 // Memproses fitur pencarian katalog aplikasi secara dinamis
 Route::get('/cari', [SublyController::class, 'cari']);
 
-
 // Menampilkan halaman detail produk/layanan beserta pilihan paket harganya
-Route::get('/detailLayanan/{id}', [SublyController::class, 'detailLayanan']);
+Route::get('/detailLayanan/{id}', [SublyController::class, 'detailLayananSPA']);
 
 // Memproses penyimpanan data form formulir pembelian paket digital ke database
 Route::post('/proses-transaksi', [SublyController::class, 'prosesTransaksi']);
@@ -61,3 +60,7 @@ Route::get('/konfirmasi-pembayaran/{id}', [SublyController::class, 'simulasiKonf
 // konfirmasi Sukses" dan "Batal" untuk admin 
 Route::get('/transaksi/sukses/{id}', [SublyController::class, 'tandaiSukses']);
 Route::get('/transaksi/batal/{id}', [SublyController::class, 'tandaiBatal']);
+
+Route::post('/kirim-bukti', [SublyController::class, 'kirimBukti']);
+Route::get('/partial/layanan/{id}', [SublyController::class, 'partialDetail']);
+Route::get('/partial/katalog', [SublyController::class, 'partialKatalog']);

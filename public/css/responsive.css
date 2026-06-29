@@ -1,0 +1,413 @@
+/* ============================================================
+   SUBLY — responsive.css v4 (fixed brace structure)
+   ============================================================ */
+
+/* ===================== TABLET (max 992px) ===================== */
+@media (max-width: 992px) {
+
+  .navbar-subly .container-fluid {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.navbar-subly .navbar-toggler {
+  margin-left: auto !important;
+  flex-shrink: 0;
+}
+
+  .navbar-subly #navbarNav {
+  position: absolute !important;
+  top: 100%;
+  left: 0;
+  right: 0;
+  justify-self: unset !important;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(8, 14, 26, 0.98);
+  backdrop-filter: blur(20px);
+  border-radius: 0 0 20px 20px;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  border-top: none;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+  .navbar-subly .navbar-brand {
+    min-width: auto !important;
+    flex-shrink: 0;
+  }
+
+  .footer-bottom {
+    margin: 0 !important;
+    padding: 16px 0 0 !important;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .promo-banner,
+  .footer-new {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .flip-wrapper.flipped .flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* Cegah klik tembus ke <a> detail layanan saat di flip-front mobile */
+  .flip-wrapper .flip-front a.service-card {
+    pointer-events: none;
+  }
+
+  .flip-wrapper {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .footer-grid {
+  grid-template-columns: 1fr !important;
+  gap: 24px !important;
+}
+
+.footer-contact-item {
+  flex-wrap: wrap !important;
+}
+
+.navbar-mobile-userinfo {
+  padding: 8px 16px !important;
+  justify-content: center !important;
+}
+
+.navbar-mobile-account {
+  text-align: center !important;
+}
+
+.navbar-mobile-link {
+  text-align: center !important;
+}
+
+}
+
+/* ===================== MOBILE (max 768px) ===================== */
+@media (max-width: 768px) {
+
+  /* --- NAVBAR --- */
+  .navbar-subly { padding: 10px 0; }
+  .navbar-subly .navbar-brand { font-size: 18px !important; }
+
+  .navbar-collapse.show .nav-link {
+    font-size: 14px !important;
+    padding: 8px 16px !important;
+  }
+
+  .navbar-collapse.show .btn-admin-nav {
+    font-size: 12px !important;
+    padding: 6px 14px !important;
+  }
+
+  .navbar-collapse.show .navbar-mobile-username {
+    font-size: 13px !important;
+  }
+
+  /* --- CAROUSEL / HERO --- */
+  .carousel-item img {
+    height: 100svh;
+    min-height: 480px;
+  }
+
+  #bannerPromo .carousel-caption {
+    display: block !important;
+  }
+
+  .carousel-caption {
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 88% !important;
+    width: 88% !important;
+    padding: 0 8px;
+  }
+
+  .carousel-caption h1,
+  #bannerPromo h1 {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 10px !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  .carousel-caption p {
+    font-size: 13px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .hero-badge {
+    font-size: 10px !important;
+    padding: 4px 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .btn-banner {
+    padding: 9px 18px;
+    font-size: 13px;
+  }
+
+  .hero-trust-strip {
+    gap: 8px !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    margin-top: 16px !important;
+  }
+
+  .hero-trust-item { font-size: 11px; }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 32px;
+    height: 32px;
+  }
+
+  .carousel-control-prev { left: 8px; }
+  .carousel-control-next { right: 8px; }
+
+  /* --- SECTION --- */
+  .section { padding: 24px 16px 12px; }
+  .section-title { font-size: 17px; }
+
+  /* --- CARDS --- */
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .card-name { font-size: 12px; }
+  .card-badge { font-size: 8px; }
+
+  /* --- FLIP CARD --- */
+  .flip-wrapper.service-card-shell { aspect-ratio: 3/2.8; }
+
+ .btn-flip-tambah,
+.btn-flip-edit,
+.btn-flip-hapus {
+  font-size: 8px !important;
+  padding: 4px 10px !important;
+  width: auto !important;
+  min-width: unset !important;
+  max-width: 85% !important;
+  gap: 3px !important;
+  white-space: nowrap !important;
+  margin: 0 auto !important;
+}
+
+.btn-flip-tambah i,
+.btn-flip-edit i,
+.btn-flip-hapus i {
+  font-size: 8px !important;
+}
+
+.flip-back {
+  padding: 10px !important;
+  gap: 5px !important;
+}
+
+.flip-back-title {
+  font-size: 9px;
+}
+  .flip-back-title { font-size: 10px; }
+
+  /* --- STEPS --- */
+  .step-card { padding: 16px; }
+  .step-number { font-size: 22px; }
+  .step-card h4 { font-size: 14px; }
+  .step-card p { font-size: 12px; }
+
+  /* --- PROMO STATS --- */
+  .trust-stat-num { font-size: 20px; }
+  .trust-stat-item { padding: 8px 12px; }
+  .promo-text h3 { font-size: 18px; }
+
+  /* --- VIDEO --- */
+  .video-section { padding: 0 16px 24px; }
+  .video-section-header { padding: 12px 16px; }
+  .video-section-title { font-size: 11px; }
+
+  .video-section-footer {
+    padding: 10px 16px;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .video-section-footer-info {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .play-btn-center {
+    width: 56px;
+    height: 56px;
+    font-size: 20px;
+  }
+
+  /* --- FOOTER --- */
+  .footer-new { padding: 24px 16px 16px; }
+  .footer-logo { font-size: 18px; }
+  .footer-bottom { font-size: 11px; }
+
+  .footer-contact-item {
+    margin-bottom: 10px;
+    flex-wrap: nowrap;
+  }
+
+  /* --- CURVE DIVIDER --- */
+  .section-curve-divider svg,
+  .footer-curve-divider svg { height: 32px; }
+
+  /* --- DETAIL PAGE --- */
+  .header-layanan { padding-bottom: 36px; }
+  .img-detail {
+    height: 220px !important;
+    transform: scale(0.75) !important;
+  }
+
+  .header-overlay h1 { font-size: 22px !important; }
+  .header-overlay p { font-size: 12px !important; }
+
+  .paket-section { padding: 24px 0 40px; }
+
+  .card-paket .card-body { padding: 20px 16px !important; }
+  .card-paket .card-body h2 { font-size: 22px !important; }
+  .card-paket .card-body h5 { font-size: 12px !important; }
+
+  /* --- MODAL MOBILE --- */
+  .modal-dialog {
+    margin: 8px;
+    max-width: calc(100vw - 16px);
+  }
+
+  .modal-content { border-radius: 16px !important; }
+  .modal-body { padding: 14px !important; }
+  .modal-header { padding: 14px 16px 10px !important; }
+
+  .modal .row { flex-direction: column; }
+  .modal .col-md-5 {
+    border-right: none !important;
+    border-bottom: 1px solid rgba(56,189,248,0.1);
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
+
+  .modal .col-md-7 { padding-left: 0 !important; }
+
+  /* Radio metode pembayaran wrap */
+  .radio-metode span {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+
+  /* --- TRANSAKSI PAGE --- */
+  .table-responsive {
+    font-size: 13px;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+
+  .table-subly th,
+  .table-subly td {
+    padding: 12px 14px;
+    white-space: nowrap;
+  }
+
+  .table-responsive::after {
+    content: '';
+    position: sticky;
+    top: 0;
+    right: 0;
+    float: right;
+    width: 24px;
+    height: 100%;
+    margin-left: -24px;
+    background: linear-gradient(to right, transparent, rgba(8,14,26,0.6));
+    pointer-events: none;
+  }
+
+  .table-responsive::-webkit-scrollbar {
+    height: 4px;
+  }
+  .table-responsive::-webkit-scrollbar-thumb {
+    background: #38bdf8;
+    border-radius: 4px;
+  }
+
+  /* --- FORM PAGES --- */
+  .edit-page-wrapper { padding: 80px 16px 60px; }
+  .card-custom { border-radius: 16px; }
+  .card-custom .card-body { padding: 20px !important; }
+  .card-custom .card-header { padding: 18px 20px !important; }
+  .card-custom .card-header h4 { font-size: 16px; }
+
+  .d-flex.justify-content-end.gap-2 {
+    flex-direction: column-reverse;
+    gap: 10px !important;
+  }
+
+  .btn-save-subly,
+  .btn-outline-secondary {
+    width: 100% !important;
+    text-align: center;
+    border-radius: 30px !important;
+  }
+
+  /* --- SYARAT PAGE --- */
+  .syarat-container { padding: 16px !important; }
+
+}
+
+/* ===================== SMALL MOBILE (max 480px) ===================== */
+@media (max-width: 480px) {
+
+  /* --- HERO --- */
+  .carousel-caption h1,
+  #bannerPromo h1 { font-size: 22px !important; }
+
+  .carousel-caption > div[style*="flex"] {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .btn-banner { width: 80%; text-align: center; }
+
+  /* --- NAVBAR DROPDOWN --- */
+  .dropdown-menu-account {
+    width: calc(100vw - 32px) !important;
+    right: 0 !important;
+    left: auto !important;
+  }
+
+  /* --- CARDS --- */
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  /* --- DETAIL PAGE --- */
+  .header-overlay h1 { font-size: 18px !important; }
+
+  .row.justify-content-center > [class*="col-md-3"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* --- MODAL --- */
+  .modal-dialog { margin: 4px; }
+
+  .radio-metode span {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+}

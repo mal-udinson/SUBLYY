@@ -6,7 +6,8 @@
     <title>SUBLY | Daftar Akun</title>
     <link rel="stylesheet" href="{{ asset('/css/bootstrap-5.1.3-dist/css/bootstrap.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <style>
         *, *::before, *::after {
             box-sizing: border-box;
@@ -14,113 +15,131 @@
             padding: 0;
         }
 
-        :root {
-            --cyan: #00d4ff;
-            --cyan-dim: rgba(0, 212, 255, 0.15);
-            --cyan-glow: rgba(0, 212, 255, 0.35);
-            --bg-deep: #060c14;
-            --bg-card: #0c1422;
-            --bg-input: #080e19;
-            --border-subtle: rgba(0, 212, 255, 0.12);
-            --border-active: rgba(0, 212, 255, 0.6);
-            --text-primary: #f0f6ff;
-            --text-secondary: #5a7a9a;
-            --text-muted: #3a5570;
-        }
-
         body {
-            background-color: var(--bg-deep);
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #080e1a;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            overflow: hidden;
             position: relative;
-            padding: 24px 0;
+            padding: 28px 0;
         }
 
+        /* ── Dot grid background ── */
         body::before {
             content: '';
             position: fixed;
-            top: -20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 700px;
-            height: 500px;
-            background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.06) 0%, transparent 70%);
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(56,189,248,0.4) 1.2px, transparent 1.2px);
+            background-size: 28px 28px;
+            opacity: 0.45;
             pointer-events: none;
             z-index: 0;
         }
 
+        /* ── Ambient glow top-center ── */
         body::after {
             content: '';
             position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(0, 212, 255, 0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 212, 255, 0.025) 1px, transparent 1px);
-            background-size: 60px 60px;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 480px;
+            background: radial-gradient(ellipse at center, rgba(14,165,233,0.13) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
 
-        .login-wrapper {
+        .glow-left {
+            position: fixed;
+            bottom: -100px;
+            left: -100px;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(56,189,248,0.07) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-right {
+            position: fixed;
+            top: -60px;
+            right: -80px;
+            width: 340px;
+            height: 340px;
+            background: radial-gradient(circle, rgba(14,165,233,0.06) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page-wrapper {
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             padding: 20px;
         }
 
-        .login-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            padding: 48px 44px;
+        /* ── Card ── */
+        .auth-card {
+            background: linear-gradient(145deg, rgba(13,25,48,0.85) 0%, rgba(8,14,26,0.92) 100%);
+            border: 1px solid rgba(56,189,248,0.15);
+            border-radius: 24px;
+            padding: 52px 48px 44px;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             box-shadow:
-                0 0 0 1px rgba(0, 212, 255, 0.04),
-                0 20px 60px rgba(0, 0, 0, 0.7),
-                0 0 80px rgba(0, 212, 255, 0.04);
+                0 0 0 1px rgba(56,189,248,0.05),
+                0 24px 80px rgba(0,0,0,0.7),
+                0 0 60px rgba(14,165,233,0.06),
+                inset 0 1px 0 rgba(56,189,248,0.08);
         }
 
-        .login-card::before {
+        .auth-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 60%;
+            width: 55%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+            opacity: 0.8;
+        }
+
+        .auth-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(56,189,248,0.06) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
             opacity: 0.6;
         }
 
-        .login-card::after {
-            content: '';
-            position: absolute;
-            top: -60px;
-            right: -60px;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.07) 0%, transparent 70%);
-            pointer-events: none;
+        .card-content {
+            position: relative;
+            z-index: 1;
         }
 
+        /* ── Brand ── */
         .brand {
             text-align: center;
             margin-bottom: 36px;
         }
 
         .brand-logo {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 900;
-            letter-spacing: 4px;
-            color: var(--cyan);
-            text-shadow: 0 0 24px rgba(0, 212, 255, 0.5);
+            letter-spacing: 3px;
+            color: #38bdf8;
+            text-shadow:
+                0 0 20px rgba(56,189,248,0.6),
+                0 0 50px rgba(56,189,248,0.25);
             text-transform: uppercase;
             display: block;
             margin-bottom: 8px;
@@ -128,24 +147,26 @@
 
         .brand-tagline {
             font-size: 13px;
-            color: var(--text-secondary);
+            color: #64748b;
             font-weight: 400;
-            letter-spacing: 0.3px;
         }
 
+        /* ── Alert ── */
         .alert {
             border-radius: 10px;
             font-size: 13px;
             padding: 10px 14px;
             margin-bottom: 20px;
             border: none;
+            font-family: 'Poppins', sans-serif;
         }
         .alert-danger {
-            background: rgba(239, 68, 68, 0.1);
+            background: rgba(239,68,68,0.1);
             color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239,68,68,0.2);
         }
 
+        /* ── Fields ── */
         .field-group {
             margin-bottom: 18px;
         }
@@ -154,43 +175,45 @@
             display: block;
             font-size: 11px;
             font-weight: 600;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            color: var(--text-secondary);
+            color: #475569;
             margin-bottom: 8px;
         }
 
         .field-input {
             width: 100%;
-            background: var(--bg-input);
-            border: 1px solid rgba(0, 212, 255, 0.1);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
+            background: rgba(8,14,26,0.7);
+            border: 1px solid rgba(56,189,248,0.1);
+            border-radius: 12px;
+            color: #f1f5f9;
+            font-family: 'Poppins', sans-serif;
             font-size: 14px;
             font-weight: 400;
             padding: 13px 16px;
             outline: none;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-            -webkit-appearance: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
         }
 
         .field-input::placeholder {
-            color: var(--text-muted);
+            color: #334155;
         }
 
         .field-input:focus {
-            border-color: var(--border-active);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.08), inset 0 0 10px rgba(0, 212, 255, 0.03);
+            border-color: rgba(56,189,248,0.5);
+            background: rgba(14,165,233,0.04);
+            box-shadow:
+                0 0 0 3px rgba(56,189,248,0.08),
+                0 0 16px rgba(56,189,248,0.06);
         }
 
-        /* Password input with toggle button */
+        /* ── Password field with toggle ── */
         .input-password-wrapper {
             position: relative;
         }
 
         .input-password-wrapper .field-input {
-            padding-right: 46px;
+            padding-right: 48px;
         }
 
         .toggle-password {
@@ -198,12 +221,12 @@
             right: 1px;
             top: 1px;
             bottom: 1px;
-            width: 42px;
+            width: 44px;
             background: transparent;
             border: none;
-            border-left: 1px solid rgba(0, 212, 255, 0.08);
-            border-radius: 0 9px 9px 0;
-            color: var(--text-muted);
+            border-left: 1px solid rgba(56,189,248,0.08);
+            border-radius: 0 11px 11px 0;
+            color: #334155;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -213,10 +236,10 @@
         }
 
         .toggle-password:hover {
-            color: var(--cyan);
+            color: #38bdf8;
         }
 
-        /* Two-column row */
+        /* ── Two-column row ── */
         .field-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -224,33 +247,34 @@
             margin-bottom: 18px;
         }
 
-        /* Terms checkbox */
+        /* ── Terms ── */
         .terms-group {
             display: flex;
             align-items: flex-start;
             gap: 10px;
-            margin-bottom: 26px;
+            margin-bottom: 24px;
             margin-top: 4px;
         }
 
         .terms-checkbox {
             -webkit-appearance: none;
             appearance: none;
-            width: 16px;
-            height: 16px;
-            min-width: 16px;
-            border: 1px solid rgba(0, 212, 255, 0.25);
-            border-radius: 4px;
-            background: var(--bg-input);
+            width: 17px;
+            height: 17px;
+            min-width: 17px;
+            border: 1px solid rgba(56,189,248,0.25);
+            border-radius: 5px;
+            background: rgba(8,14,26,0.7);
             cursor: pointer;
-            margin-top: 1px;
+            margin-top: 2px;
             position: relative;
-            transition: border-color 0.15s ease, background 0.15s ease;
+            transition: border-color 0.15s, background 0.15s;
         }
 
         .terms-checkbox:checked {
-            background: var(--cyan);
-            border-color: var(--cyan);
+            background: #0ea5e9;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 8px rgba(14,165,233,0.4);
         }
 
         .terms-checkbox:checked::after {
@@ -258,9 +282,9 @@
             position: absolute;
             left: 4px;
             top: 1px;
-            width: 5px;
-            height: 9px;
-            border: 2px solid #060c14;
+            width: 6px;
+            height: 10px;
+            border: 2px solid #fff;
             border-top: none;
             border-left: none;
             transform: rotate(45deg);
@@ -268,31 +292,31 @@
 
         .terms-label {
             font-size: 12.5px;
-            color: var(--text-secondary);
-            line-height: 1.5;
+            color: #475569;
+            line-height: 1.55;
             cursor: pointer;
         }
 
         .terms-label a {
-            color: var(--cyan);
+            color: #38bdf8;
             text-decoration: none;
             font-weight: 500;
         }
 
         .terms-label a:hover {
             text-decoration: underline;
-            text-decoration-color: rgba(0, 212, 255, 0.4);
+            text-decoration-color: rgba(56,189,248,0.4);
         }
 
-        /* Submit button */
-        .btn-login {
+        /* ── Submit button ── */
+        .btn-submit {
             width: 100%;
             padding: 14px;
-            border-radius: 12px;
+            border-radius: 14px;
             border: none;
-            background: linear-gradient(135deg, #00c8f0, #00d4ff, #00b8e0);
-            color: #060c14;
-            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0ea5e9, #38bdf8, #0284c7);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
             font-size: 14px;
             font-weight: 700;
             letter-spacing: 0.8px;
@@ -301,158 +325,165 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.15s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+            box-shadow:
+                0 4px 20px rgba(14,165,233,0.35),
+                0 0 0 1px rgba(56,189,248,0.2);
         }
 
-        .btn-login::before {
+        .btn-submit::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+            background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
             opacity: 0;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.2s;
         }
 
-        .btn-login:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 30px rgba(0, 212, 255, 0.45);
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 32px rgba(14,165,233,0.5),
+                0 0 0 1px rgba(56,189,248,0.35);
         }
 
-        .btn-login:hover::before {
-            opacity: 1;
-        }
+        .btn-submit:hover::before { opacity: 1; }
+        .btn-submit:active { transform: translateY(0); }
 
-        .btn-login:active {
-            transform: translateY(0);
-        }
-
+        /* ── Divider + footer ── */
         .divider {
             border: none;
-            border-top: 1px solid rgba(0, 212, 255, 0.06);
+            border-top: 1px solid rgba(56,189,248,0.08);
             margin: 28px 0 0;
         }
 
-        .register-prompt {
+        .auth-footer {
             text-align: center;
-            margin-top: 24px;
+            margin-top: 20px;
             font-size: 13px;
-            color: var(--text-secondary);
+            color: #475569;
         }
 
-        .register-prompt a {
-            color: var(--cyan);
+        .auth-footer a {
+            color: #38bdf8;
             text-decoration: none;
             font-weight: 600;
-            transition: opacity 0.15s ease;
+            transition: opacity 0.15s;
         }
 
-        .register-prompt a:hover {
-            opacity: 0.8;
+        .auth-footer a:hover {
+            opacity: 0.75;
             text-decoration: underline;
-            text-decoration-color: rgba(0, 212, 255, 0.4);
+            text-decoration-color: rgba(56,189,248,0.4);
         }
     </style>
 </head>
 <body>
-    <div class="login-wrapper">
-        <div class="login-card">
-            <div class="brand">
-                <span class="brand-logo">SUBLY</span>
-                <p class="brand-tagline">Buat akun baru Anda</p>
+    <div class="glow-left"></div>
+    <div class="glow-right"></div>
+
+    <div class="page-wrapper">
+        <div class="auth-card">
+            <div class="card-content">
+                <div class="brand">
+                    <span class="brand-logo">SUBLY</span>
+                    <p class="brand-tagline">Buat akun baru Anda</p>
+                </div>
+
+                @if(session('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+
+                <form action="/registrasi" method="POST">
+                    {{ csrf_field() }}
+
+                    <div class="field-group">
+                        <label class="field-label" for="email">Alamat Email</label>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            class="field-input"
+                            placeholder="contoh@email.com"
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="username">Username</label>
+                        <input
+                            id="username"
+                            type="text"
+                            name="username"
+                            class="field-input"
+                            placeholder="Masukkan username"
+                            required
+                            autocomplete="username"
+                        >
+                    </div>
+
+                    <div class="field-row">
+                        <div>
+                            <label class="field-label" for="password">Buat Password</label>
+                            <div class="input-password-wrapper">
+                                <input
+                                    id="password"
+                                    type="password"
+                                    name="password"
+                                    class="field-input"
+                                    placeholder="••••••••"
+                                    required
+                                    autocomplete="new-password"
+                                >
+                                <button type="button" class="toggle-password" onclick="togglePass('password','icon1')" tabindex="-1">
+                                    <i class="bi bi-eye" id="icon1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="field-label" for="confirm_password">Ulangi Password</label>
+                            <div class="input-password-wrapper">
+                                <input
+                                    id="confirm_password"
+                                    type="password"
+                                    name="confirm_password"
+                                    class="field-input"
+                                    placeholder="••••••••"
+                                    required
+                                    autocomplete="new-password"
+                                >
+                                <button type="button" class="toggle-password" onclick="togglePass('confirm_password','icon2')" tabindex="-1">
+                                    <i class="bi bi-eye" id="icon2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terms-group">
+                        <input type="checkbox" class="terms-checkbox" id="terms" required>
+                        <label class="terms-label" for="terms">
+                            Saya setuju dengan <a href="/syarat-ketentuan">Syarat &amp; Ketentuan</a> privasi SUBLY.
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                    </button>
+                </form>
+
+                <hr class="divider">
+                <p class="auth-footer">
+                    Sudah punya akun? <a href="/halaman-login">Login di sini</a>
+                </p>
             </div>
-
-            @if(session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
-
-            <form action="/registrasi" method="POST">
-                {{ csrf_field() }}
-
-                <div class="field-group">
-                    <label class="field-label" for="email">Alamat Email</label>
-                    <input
-                        id="email"
-                        type="email"
-                        name="email"
-                        class="field-input"
-                        placeholder="contoh@email.com"
-                        required
-                        autocomplete="email"
-                    >
-                </div>
-
-                <div class="field-group">
-                    <label class="field-label" for="username">Username</label>
-                    <input
-                        id="username"
-                        type="text"
-                        name="username"
-                        class="field-input"
-                        placeholder="Masukkan username"
-                        required
-                        autocomplete="username"
-                    >
-                </div>
-
-                <div class="field-row">
-                    <div>
-                        <label class="field-label" for="password">Buat Password</label>
-                        <div class="input-password-wrapper">
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                class="field-input"
-                                placeholder="••••••••"
-                                required
-                                autocomplete="new-password"
-                            >
-                            <button type="button" class="toggle-password" onclick="togglePassword('password', 'icon1')" tabindex="-1">
-                                <i class="bi bi-eye" id="icon1"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="field-label" for="confirm_password">Ulangi Password</label>
-                        <div class="input-password-wrapper">
-                            <input
-                                id="confirm_password"
-                                type="password"
-                                name="confirm_password"
-                                class="field-input"
-                                placeholder="••••••••"
-                                required
-                                autocomplete="new-password"
-                            >
-                            <button type="button" class="toggle-password" onclick="togglePassword('confirm_password', 'icon2')" tabindex="-1">
-                                <i class="bi bi-eye" id="icon2"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="terms-group">
-                    <input type="checkbox" class="terms-checkbox" id="terms" required>
-                    <label class="terms-label" for="terms">
-                        Saya setuju dengan <a href="#">Syarat &amp; Ketentuan</a> privasi SUBLY.
-                    </label>
-                </div>
-
-                <button type="submit" class="btn-login">Daftar Sekarang</button>
-            </form>
-
-            <hr class="divider">
-            <p class="register-prompt">
-                Sudah punya akun? <a href="/halaman-login">Login di sini</a>
-            </p>
         </div>
     </div>
 
     <script>
-        function togglePassword(inputId, iconId) {
+        function togglePass(inputId, iconId) {
             const input = document.getElementById(inputId);
-            const icon = document.getElementById(iconId);
+            const icon  = document.getElementById(iconId);
             if (input.type === 'password') {
                 input.type = 'text';
                 icon.classList.replace('bi-eye', 'bi-eye-slash');
@@ -462,5 +493,6 @@
             }
         }
     </script>
+    @include('partials.turbolinks-reinit')
 </body>
 </html>

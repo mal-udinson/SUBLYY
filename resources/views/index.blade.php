@@ -9,8 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"></script>
+<link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1494,9 +1493,122 @@
   .video-section-body { max-height: none; aspect-ratio: 16/9; }
 }
 
+/* ===================== LOADING SCREEN ===================== */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #080e1a;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#loading-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(56,189,248,0.4) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+#loading-screen::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(14,165,233,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.loader-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.loader-dual-ring {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: solid transparent;
+}
+
+.ring-outer {
+  width: 72px;
+  height: 72px;
+  border-width: 3px;
+  border-top-color: #38bdf8;
+  border-right-color: #38bdf8;
+  animation: spin-cw 1s linear infinite;
+}
+
+.ring-inner {
+  width: 44px;
+  height: 44px;
+  border-width: 2px;
+  border-bottom-color: rgba(56,189,248,0.5);
+  border-left-color: rgba(56,189,248,0.5);
+  animation: spin-ccw 0.8s linear infinite;
+}
+
+.loader-letter {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #38bdf8;
+  text-shadow: 0 0 20px rgba(56,189,248,0.6);
+}
+
+.loader-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #334155;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
 </style>
 </head>
 <body>
+
+<div id="loading-screen">
+  <div class="loader-wrap">
+    <div class="loader-dual-ring">
+      <div class="ring ring-outer"></div>
+      <div class="ring ring-inner"></div>
+      <span class="loader-letter">S</span>
+    </div>
+    <p class="loader-label">Memuat SUBLY...</p>
+  </div>
+</div>
 
 {{-- ===================== NAVBAR ===================== --}}
 <nav class="navbar navbar-expand-lg navbar-subly" id="mainNavbar">
@@ -1510,95 +1622,130 @@
     </button>
 
     <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-      <ul class="navbar-nav align-items-center">
-        <li class="nav-item">
-          <a class="nav-link active" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#streaming">Streaming & Music</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#aitools">AI Tools</a>
-        </li>
-        @if(session()->get('status') == 'admin')
-        <li class="nav-item ms-2">
-          <a href="/tambah" class="btn-admin-nav">+ Tambah Produk</a>
-        </li>
-        @endif
-      </ul>
-    </div>
+  <ul class="navbar-nav align-items-center w-100">
+
+    <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="#streaming">Streaming & Music</a></li>
+    <li class="nav-item"><a class="nav-link" href="#aitools">AI Tools</a></li>
+
+    @if(session()->get('status') == 'admin')
+    <li class="nav-item ms-2">
+      <a href="/tambah" class="btn-admin-nav">+ Tambah Produk</a>
+    </li>
+    @endif
+
+    {{-- divider + account block, HANYA tampil di mobile --}}
+    <li class="nav-item d-lg-none w-100 mt-2 navbar-mobile-account">
+      <hr class="navbar-mobile-divider">
+
+      @if(session()->has('username'))
+        <div class="navbar-mobile-userinfo">
+          <span class="navbar-mobile-avatar">
+            {{ strtoupper(substr(session('username'), 0, 1)) }}
+          </span>
+          <div>
+            <div class="navbar-mobile-username">{{ session('username') }}</div>
+            <div class="navbar-mobile-userstatus">Akun {{ session('status') }}</div>
+          </div>
+        </div>
+
+        <a class="nav-link navbar-mobile-link" href="/transaksi">
+          <i class="bi bi-receipt me-2 opacity-50"></i>Riwayat Transaksi
+        </a>
+        <a class="nav-link navbar-mobile-link text-danger" href="/logout">
+          <i class="bi bi-box-arrow-right me-2"></i>Logout
+        </a>
+      @else
+        <div class="navbar-mobile-auth">
+          <a href="/halaman-login" class="navbar-mobile-login">Login</a>
+          <a href="/signin" class="navbar-mobile-daftar">Daftar</a>
+        </div>
+      @endif
+    </li>
+
+  </ul>
+</div>
 
     <div class="navbar-right-group d-none d-lg-flex">
-    <form action="/cari" method="GET" class="m-0">
-      <div class="subly-search-box">
-        <i class="ti ti-search search-icon"></i>
-        <input type="text" name="cari" class="search-input"
-              placeholder="Cari aplikasi..." value="{{ old('cari') }}">
-      </div>
-    </form>
-
-      <div class="dropdown">
-        <a class="btn-account-nav dropdown-toggle d-flex align-items-center gap-2"
-          href="#" role="button" data-bs-toggle="dropdown">
-          @if(session()->has('username'))
-            <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-info text-dark fw-bold"
-              style="width:26px;height:26px;font-size:11px;">
-              {{ strtoupper(substr(session('username'), 0, 1)) }}
-            </span>
-            {{ session('username') }}
-          @else
-            <i class="bi bi-person-circle"></i> Account
-          @endif
-        </a>
-
-        <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end p-2 shadow-lg">
-          @if(session()->has('username'))
-            <li>
-              <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color:#0f172a;">
-                <div class="bg-info text-dark fw-bold rounded-circle d-flex justify-content-center align-items-center me-3"
-                  style="width:42px;height:42px;font-size:16px;flex-shrink:0;">
-                  {{ strtoupper(substr(session('username'), 0, 1)) }}
-                </div>
-                <div>
-                  <strong class="d-block text-white" style="font-size:14px;">{{ session('username') }}</strong>
-                  <small class="text-info text-uppercase" style="font-size:10px;">Akun {{ session('status') }}</small>
-                </div>
-              </div>
-            </li>
-            <li><a class="dropdown-item py-2 rounded" href="/transaksi">
-              <i class="bi bi-receipt me-2 opacity-50"></i>Riwayat Transaksi
-            </a></li>
-            <li><hr class="dropdown-divider border-secondary my-1"></li>
-            <li><a class="dropdown-item text-danger py-2 rounded" href="/logout">
-              <i class="bi bi-box-arrow-right me-2"></i>Logout
-            </a></li>
-          @else
-            <li>
-              <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color:#0f172a;">
-                <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center me-3 text-white"
-                  style="width:42px;height:42px;font-size:18px;flex-shrink:0;">
-                  <i class="bi bi-person"></i>
-                </div>
-                <div>
-                  <strong class="d-block text-white" style="font-size:14px;">Guest Account</strong>
-                  <small class="text-secondary" style="font-size:11px;">Masuk untuk bertransaksi</small>
-                </div>
-              </div>
-            </li>
-            <li class="d-flex gap-2 mb-2 px-1">
-              <a href="/halaman-login" class="btn btn-outline-light w-50 py-1" style="border-radius:8px;font-size:13px;">Login</a>
-              <a href="/signin" class="btn btn-info text-dark fw-bold w-50 py-1" style="border-radius:8px;font-size:13px;">Daftar</a>
-            </li>
-            <li><hr class="dropdown-divider border-secondary my-1"></li>
-            <li><a class="dropdown-item py-2 rounded" href="/syarat-ketentuan">
-              <i class="bi bi-file-text me-2 opacity-50"></i>Syarat & Ketentuan
-            </a></li>
-          @endif
-        </ul>
-      </div>
+    <div class="subly-search-box">
+      <i class="ti ti-search search-icon"></i>
+      <input type="text" id="liveSearchInput" class="search-input"
+            placeholder="Cari aplikasi..." autocomplete="off">
     </div>
 
-  </div>
+      <div class="dropdown">
+  <a class="btn-account-nav dropdown-toggle d-flex align-items-center gap-2"
+    href="#" role="button" data-bs-toggle="dropdown">
+    @if(session()->has('username'))
+      <span class="d-inline-flex align-items-center justify-content-center rounded-circle fw-bold"
+        style="width:26px;height:26px;font-size:11px;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;">
+        {{ strtoupper(substr(session('username'), 0, 1)) }}
+      </span>
+      {{ session('username') }}
+    @else
+      <i class="bi bi-person-circle"></i> Account
+    @endif
+  </a>
+
+  <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end p-2 shadow-lg">
+    @if(session()->has('username'))
+      <li>
+        <div class="p-3 mb-1 rounded-3" style="background:linear-gradient(135deg,rgba(14,42,80,0.6) 0%,rgba(8,14,26,0.8) 100%);border:1px solid rgba(56,189,248,0.1);">
+          <div class="d-flex align-items-center gap-3">
+            <div style="width:42px;height:42px;border-radius:50%;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;font-weight:700;color:#38bdf8;">
+              {{ strtoupper(substr(session('username'), 0, 1)) }}
+            </div>
+            <div>
+              <strong class="d-block text-white" style="font-size:13px;font-weight:700;">{{ session('username') }}</strong>
+              <small style="font-size:11px;color:#38bdf8;">
+                AKUN {{ strtoupper(session('status')) }}
+              </small>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><hr class="dropdown-divider border-secondary my-1"></li>
+      <li><a class="dropdown-item py-2 rounded" href="/transaksi">
+        <i class="bi bi-receipt me-2 opacity-50"></i>Riwayat Transaksi
+      </a></li>
+      <li><hr class="dropdown-divider border-secondary my-1"></li>
+      <li><a class="dropdown-item text-danger py-2 rounded" href="/logout">
+        <i class="bi bi-box-arrow-right me-2"></i>Logout
+      </a></li>
+
+    @else
+      <li>
+        <div class="p-3 mb-1 rounded-3" style="background:linear-gradient(135deg,rgba(14,42,80,0.6) 0%,rgba(8,14,26,0.8) 100%);border:1px solid rgba(56,189,248,0.1);">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div style="width:42px;height:42px;border-radius:50%;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="bi bi-person" style="font-size:18px;color:#38bdf8;"></i>
+            </div>
+            <div>
+              <strong class="d-block text-white" style="font-size:13px;font-weight:700;">Guest Account</strong>
+              <small style="font-size:11px;color:#475569;">Masuk untuk mulai berlangganan</small>
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="/halaman-login" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 0;border-radius:20px;font-size:12px;font-weight:600;color:#7dd3fc;background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.25);text-decoration:none;transition:all 0.2s;"
+              onmouseover="this.style.background='rgba(56,189,248,0.15)';this.style.color='#fff'"
+              onmouseout="this.style.background='rgba(56,189,248,0.06)';this.style.color='#7dd3fc'">
+              <i class="bi bi-box-arrow-in-right" style="font-size:13px;"></i> Login
+            </a>
+            <a href="/signin" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 0;border-radius:20px;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#0ea5e9,#0284c7);border:none;text-decoration:none;box-shadow:0 0 14px rgba(14,165,233,0.3);transition:all 0.2s;"
+              onmouseover="this.style.boxShadow='0 0 22px rgba(14,165,233,0.55)'"
+              onmouseout="this.style.boxShadow='0 0 14px rgba(14,165,233,0.3)'">
+              <i class="bi bi-person-plus" style="font-size:13px;"></i> Daftar
+            </a>
+          </div>
+        </div>
+      </li>
+      <li><hr class="dropdown-divider border-secondary my-1"></li>
+      <li><a class="dropdown-item py-2 rounded" href="/syarat-ketentuan">
+        <i class="bi bi-file-text me-2 opacity-50"></i>Syarat & Ketentuan
+      </a></li>
+    @endif
+  </ul>
+</div>
 </nav>
 
 {{-- ===================== CAROUSEL ===================== --}}
@@ -1624,7 +1771,7 @@
       </p>
       <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
         <a href="#streaming" class="btn-banner">Mulai Berlangganan</a>
-        <a href="#aitools" class="btn-banner" style="background:transparent;border:1px solid rgba(255,255,255,0.2);box-shadow:none;">Lihat Semua →</a>
+        <a href="#aitools" class="btn-banner" style="background:transparent;border:1px solid rgba(255,255,255,0.2);box-shadow:none;" onclick="document.getElementById('liveSearchInput').value=''; document.getElementById('liveSearchInput').dispatchEvent(new Event('input'));">Lihat Semua →</a>
       </div>
       <div class="hero-trust-strip" style="margin-top:28px;">
         <div class="hero-trust-item"><i class="ti ti-shield-check"></i> Garansi penuh 1×24 jam</div>
@@ -1687,6 +1834,7 @@
   </svg>
 </div>
 
+<div id="spa-content">
 {{-- ===================== CARA ORDER ===================== --}}
 <section class="section" id="cara-order">
   <div class="section-header">
@@ -1718,7 +1866,7 @@
 <section class="section" id="streaming">
   <div class="section-header">
     <div class="section-title">Streaming & Music</div>
-    <a href="#streaming" class="see-all-link">Lihat semua →</a>
+   <a href="#streaming" class="see-all-link" onclick="document.getElementById('liveSearchInput').value=''; document.getElementById('liveSearchInput').dispatchEvent(new Event('input'));">Lihat semua →</a>
   </div>
   <div class="cards-grid">
 @foreach($layanan as $l)
@@ -1726,7 +1874,7 @@
 
     @if(session()->get('status') == 'admin')
       {{-- ADMIN: Flip Card --}}
-      <div class="flip-wrapper service-card-shell">
+      <div class="flip-wrapper service-card-shell" onclick="if(window.innerWidth<=992){this.classList.toggle('flipped')}">
         <div class="flip-inner" style="height:100%;">
           <div class="flip-front">
             <a href="/detailLayanan/{{ $l->id_layanan }}" class="service-card" style="height:100%;display:flex;flex-direction:column;">
@@ -1789,7 +1937,7 @@
 <section class="section" id="aitools" style="padding-top:0;">
   <div class="section-header">
     <div class="section-title">AI Tools & Productivity</div>
-    <a href="#aitools" class="see-all-link">Lihat semua →</a>
+    <a href="#aitools" class="see-all-link" onclick="document.getElementById('liveSearchInput').value=''; document.getElementById('liveSearchInput').dispatchEvent(new Event('input'));">Lihat semua →</a>
   </div>
   <div class="cards-grid">
     @foreach($layanan as $l)
@@ -1917,6 +2065,8 @@
   </div>
 </div>
 
+</div>
+
 {{-- ===================== FOOTER CURVE DIVIDER ===================== --}}
 <div class="footer-curve-divider">
   <svg viewBox="0 0 1400 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -1985,92 +2135,100 @@
 </footer>
 
 <script src="{{ asset('/css/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+include('partials.turbolinks-reinit')
+
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const navbar = document.getElementById('mainNavbar');
-    
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 60) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
+const loadingScreen = document.getElementById('loading-screen');
+if (loadingScreen) {
+  window.addEventListener('load', function() {
+    setTimeout(() => {
+      loadingScreen.classList.add('hidden');
+    }, 600);
+  });
+}
 
-    const navLinks = document.querySelectorAll('.navbar-subly .nav-link');
+// Taruh di luar initPage(), langsung di dalam <script>
+window.addEventListener('load', function() {
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    setTimeout(() => {
+      loadingScreen.classList.add('hidden');
+    }, 600);
+  }
+});
 
-    function updateActiveNav() {
-      const scrollY = window.scrollY;
+function initPage() {
+  const navbar = document.getElementById('mainNavbar');
+  if (!navbar) return;
 
-      if (scrollY < 300) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === '/') link.classList.add('active');
-        });
-        return;
-      }
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 60) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
 
-      const streamingEl = document.getElementById('streaming');
-      const aitoolsEl  = document.getElementById('aitools');
+  const navLinks = document.querySelectorAll('.navbar-subly .nav-link');
 
-      let activeHref = '/';
-
-      if (streamingEl && scrollY >= streamingEl.offsetTop - 120) {
-        activeHref = '#streaming';
-      }
-      if (aitoolsEl && scrollY >= aitoolsEl.offsetTop - 120) {
-        activeHref = '#aitools';
-      }
-
+  function updateActiveNav() {
+    const scrollY = window.scrollY;
+    if (scrollY < 300) {
       navLinks.forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('href') === activeHref) {
-          link.classList.add('active');
-        }
-      }); // ← tutup forEach di sini dulu
-    }   // ← tutup updateActiveNav di sini
-
-    window.addEventListener('scroll', updateActiveNav);
-    updateActiveNav();
-
-    // ✅ BARU TARUH DI SINI — di luar semua fungsi di atas
-    document.querySelectorAll('.section-header').forEach(el => {
-      el.classList.add('reveal', 'from-left');
-    });
-
-    document.querySelectorAll('.step-card').forEach((el, i) => {
-      el.classList.add('reveal');
-      el.style.transitionDelay = `${i * 0.12}s`;
-    });
-
-    document.querySelectorAll('.cards-grid').forEach(grid => {
-      grid.querySelectorAll('.service-card').forEach((card, i) => {
-        card.classList.add('reveal');
-        card.style.transitionDelay = `${(i % 4) * 0.1}s`;
+        if (link.getAttribute('href') === '/') link.classList.add('active');
       });
+      return;
+    }
+    const streamingEl = document.getElementById('streaming');
+    const aitoolsEl  = document.getElementById('aitools');
+    let activeHref = '/';
+    if (streamingEl && scrollY >= streamingEl.offsetTop - 120) activeHref = '#streaming';
+    if (aitoolsEl && scrollY >= aitoolsEl.offsetTop - 120) activeHref = '#aitools';
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === activeHref) link.classList.add('active');
     });
+  }
 
-    document.querySelectorAll('.promo-text').forEach(el => {
-      el.classList.add('reveal', 'from-left');
+  window.addEventListener('scroll', updateActiveNav);
+  updateActiveNav();
+
+  document.querySelectorAll('.section-header').forEach(el => {
+    el.classList.add('reveal', 'from-left');
+  });
+  document.querySelectorAll('.step-card').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = `${i * 0.12}s`;
+  });
+  document.querySelectorAll('.cards-grid').forEach(grid => {
+    grid.querySelectorAll('.service-card').forEach((card, i) => {
+      card.classList.add('reveal');
+      card.style.transitionDelay = `${(i % 4) * 0.1}s`;
     });
+  });
+  document.querySelectorAll('.promo-text').forEach(el => {
+    el.classList.add('reveal', 'from-left');
+  });
+  document.querySelectorAll('.trust-stat-item').forEach((el, i) => {
+    el.classList.add('reveal', 'from-right');
+    el.style.transitionDelay = `${i * 0.12}s`;
+  });
 
-    document.querySelectorAll('.trust-stat-item').forEach((el, i) => {
-      el.classList.add('reveal', 'from-right');
-      el.style.transitionDelay = `${i * 0.12}s`;
+  const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        scrollObserver.unobserve(entry.target);
+      }
     });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-    const scrollObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          scrollObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => scrollObserver.observe(el));
+}
 
-    document.querySelectorAll('.reveal').forEach(el => scrollObserver.observe(el));
-
-}); // ← penutup DOMContentLoaded
+document.addEventListener("DOMContentLoaded", initPage);
 
 // ========== VIDEO SECTION PLAYER ==========
 const mainVid      = document.getElementById('mainVid');
@@ -2088,6 +2246,144 @@ if (videoBody) {
     }
   });
 }
+
+
+// ========== SPA HANDLER ==========
+function loadSpaContent(id) {
+  sessionStorage.setItem('scrollPos', window.scrollY);
+    
+    fetch('/partial/layanan/' + id)
+        .then(res => res.text())
+        .then(html => {
+            const spaEl = document.getElementById('spa-content');
+            
+            spaEl.style.transition = 'opacity 0.3s ease';
+            spaEl.style.opacity = '0';
+            
+            setTimeout(() => {
+                spaEl.innerHTML = html;
+                history.pushState({id: id}, '', '/detailLayanan/' + id);
+                
+                spaEl.style.opacity = '1';
+
+                // Re-init semua script di partial (brand color, setPaket, dll)
+                spaEl.querySelectorAll('script').forEach(oldScript => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = oldScript.textContent;
+                    document.body.appendChild(newScript);
+                    document.body.removeChild(newScript);
+                });
+
+                // Re-init Bootstrap modal
+                const modalEl = document.getElementById('modalCheckout');
+                if (modalEl) {
+                    new bootstrap.Modal(modalEl);
+                }
+
+            }, 300);
+        });
+}
+
+// Intercept klik kartu layanan
+document.addEventListener('click', function(e) {
+    const card = e.target.closest('a.service-card');
+    if (!card) return;
+    
+    // ← TAMBAHKAN INI: skip kalau anchor link
+    const href = card.getAttribute('href');
+    if (!href || href.startsWith('#')) return;
+    
+    e.preventDefault();
+    const id = href.split('/').pop();
+    loadSpaContent(id);
+});
+
+// Handle tombol Back browser
+window.addEventListener('popstate', function(e) {
+    // Skip kalau hanya hash/anchor navigation
+    if (window.location.hash) return;
+
+    if (e.state && e.state.id) {
+        loadSpaContent(e.state.id);
+    } else {
+        location.reload();
+    }
+});
+
+// Handle tombol Kembali di partial
+document.addEventListener('click', function(e) {
+    if (e.target.closest('#btn-kembali-spa')) {
+        e.preventDefault();
+        
+        fetch('/partial/katalog')
+            .then(res => res.text())
+            .then(html => {
+                const spaEl = document.getElementById('spa-content');
+                spaEl.style.opacity = '0';
+                setTimeout(() => {
+                    spaEl.innerHTML = html;
+                    history.pushState(null, '', '/');
+                    spaEl.style.opacity = '1';
+                }, 300);
+            });
+    }
+});
+
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+</script>
+
+@if(isset($spaDetailId))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSpaContent({{ $spaDetailId }});
+    });
+</script>
+@endif
+
+<script>
+function initLiveSearch() {
+  const searchInput = document.getElementById('liveSearchInput');
+  if (!searchInput) return;
+
+  searchInput.addEventListener('input', function () {
+    const keyword = this.value.trim().toLowerCase();
+    const sections = document.querySelectorAll('.section[id="streaming"], .section[id="aitools"]');
+
+    sections.forEach(section => {
+      const cards = section.querySelectorAll('.service-card, .flip-wrapper.service-card-shell');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const nameEl = card.querySelector('.card-name');
+        const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+        const matches = keyword === '' || name.includes(keyword);
+
+        // card / flip-wrapper bisa beda parent tergantung admin atau bukan
+        const cardWrapper = card.classList.contains('flip-wrapper') ? card : card;
+        cardWrapper.style.display = matches ? '' : 'none';
+
+        if (matches) visibleCount++;
+      });
+
+      // Sembunyikan seluruh section (termasuk judul "Streaming & Music") kalau hasilnya 0
+      if (keyword === '') {
+        section.style.display = '';
+      } else {
+        section.style.display = visibleCount > 0 ? '' : 'none';
+      }
+    });
+
+    // Sembunyikan section "Cara Order" dan promo saat sedang searching, biar fokus ke hasil
+    const otherSections = document.querySelectorAll('#cara-order, .promo-section, .video-section');
+    otherSections.forEach(el => {
+      el.style.display = keyword === '' ? '' : 'none';
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initLiveSearch);
 </script>
 </body>
 </html>

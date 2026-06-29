@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUBLY | Detail Layanan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('/css/bootstrap-5.1.3-dist/css/bootstrap.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-    <style>
+   <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
+   <style>
        body {
     background: #080e1a;
     font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
@@ -506,10 +497,22 @@
     color: #38bdf8;
     box-shadow: 0 0 12px rgba(56,189,248,0.15);
 }
+
+.header-layanan::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, #080e1a 0%, transparent 100%);
+    z-index: 5;
+    pointer-events: none;
+}
     </style>
 
     <script>
-        window.addEventListener('load', function() {
+        (function() {
             const header = document.querySelector('.header-layanan');
             const img = document.querySelector('.img-detail');
             const namaLayanan = "{{ strtolower($layanan->nama_layanan) }}";
@@ -563,13 +566,14 @@
             // Logo clean tidak perlu mixBlendMode karena sudah transparan
             img.style.mixBlendMode = 'normal';
             img.style.filter = 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))';
-        });
-        </script>
-</head>
-<body>
+        })();
 
-    <div class="header-layanan">
-    <a href="/" class="btn-kembali">
+        
+        </script>
+   <div class="header-layanan">
+    {{-- Gradient overlay atas --}}
+    <div style="position:absolute;top:0;left:0;right:0;height:100px;background:linear-gradient(to bottom, #080e1a 0%, transparent 100%);z-index:5;pointer-events:none;"></div>
+    <a href="/" class="btn-kembali" id="btn-kembali-spa">
         ← Kembali
     </a>
     @if($layanan->gambar_logo_clean)
@@ -731,7 +735,6 @@
         </div>
     </div>
 
-    <script src="{{ asset('/css/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js') }}"></script>
     <script>
         // PERBAIKAN 2: Mengubah logika fungsi untuk membaca atribut data-deskripsi dari objek elemen kartu
         function setPaket(id, nama, harga, element) {
@@ -759,7 +762,6 @@
         }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @if(session('error_checkout'))
     <script>
@@ -780,8 +782,6 @@
     </script>
     @endif
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @include('partials.turbolinks-reinit')
     <script>
         function konfirmasiPembayaran(event) {
             // Mencegah form langsung terkirim
@@ -934,5 +934,3 @@ setTimeout(() => {
         });    // tutup Swal loading
     }
     </script>
-</body>
-</html>

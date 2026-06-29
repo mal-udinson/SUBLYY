@@ -276,7 +276,9 @@ class SublyController extends Controller
             'nama_lengkap'      => $request->nama_lengkap,
             'nomor_whatsapp'    => $request->nomor_whatsapp,
             'metode_pembayaran' => $request->metode_pembayaran,
-            'status_pesanan'    => 'Pending'
+            'status_pesanan'    => 'Pending',
+            'created_at'        => now(),  // ← tambah ini
+            'updated_at'        => now(),  // ← tambah ini
         ]);
 
         return redirect('/transaksi')->with(['success' => 'Pesanan berhasil dibuat!']);
@@ -384,4 +386,54 @@ class SublyController extends Controller
         // Kembalikan ke halaman riwayat transaksi
         return redirect('/transaksi');
     }
+
+public function kirimBukti(Request $request)
+{
+    if (!session()->has('username')) {
+        return redirect('/halaman-login');
+    }
+
+    // Simpan foto bukti
+    $foto = $request->file('foto_bukti');
+    $namaFoto = time() . '_bukti_' . $request->id_transaksi . '.' . $foto->getClientOriginalExtension();
+    $foto->storeAs('public/bukti', $namaFoto);
+
+    // Update status jadi 'Diproses' + simpan path foto
+    DB::table('tabel_transaksi')
+        ->where('id_transaksi', $request->id_transaksi)
+        ->update([
+            'foto_bukti'    => $namaFoto,
+            'status_pesanan' => 'Diproses'  // ← otomatis jadi Diverifikasi
+        ]);
+
+    return redirect('/transaksi')->with('success', 'Bukti berhasil dikirim! Admin akan memverifikasi segera.');
 }
+
+public function partialDetail($id)
+{
+    $layanan = DB::table('tabel_layanan')->where('id_layanan', $id)->first();
+    $paket = DB::table('tabel_paket')->where('id_layanan', $id)->get();
+    return view('partial_detail', compact('layanan', 'paket'));
+}
+
+public function detailLayananSPA($id)
+{
+    $layanan = DB::table('tabel_layanan')->get();
+    $layananDetail = DB::table('tabel_layanan')->where('id_layanan', $id)->first();
+    $paket = DB::table('tabel_paket')->where('id_layanan', $id)->get();
+    
+    return view('index', [
+        'layanan' => $layanan,
+        'spaDetailId' => $id,
+        'layananDetail' => $layananDetail,
+        'paketDetail' => $paket
+    ]);
+}
+
+public function partialKatalog()
+{
+    $layanan = DB::table('tabel_layanan')->get();
+    return view('partial_katalog', ['layanan' => $layanan]);
+}
+
+    }

@@ -6,6 +6,7 @@
     <title>SUBLY | Dashboard</title>
     <link rel="stylesheet" href="{{ asset('/css/bootstrap-5.1.3-dist/css/bootstrap.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <style>
         body {
             background-color: #0f172a;
